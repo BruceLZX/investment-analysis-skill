@@ -19,7 +19,6 @@ A professional-grade AI skill that turns a company name, ticker, or pitch deck i
 
 Think of it as having a top-tier investment analyst who works at machine speed — reading your source files, searching the web across 5 dimensions in both Chinese and English, cross-verifying claims against primary sources, and producing a beautifully formatted HTML+PDF report that can go straight to your investment committee.
 
-> **46 companies analyzed in production, 86 dual-format reports generated.**
 
 ## Quick Start
 
@@ -58,22 +57,6 @@ Copy `prompt_universal.md` as the system prompt, then send your company name or 
 
 ### Report Coverage (14 Dimensions)
 
-| # | Dimension | What It Covers |
-|---|-----------|---------------|
-| 1 | **Company Overview** | Legal entity, timeline, business model, stage, TL;DR |
-| 2 | **Founding Team** | Founder-market fit, career verification, reference checks, key-person risk |
-| 3 | **Technology & Product** | Tech stack, IP moat, TRL, build-vs-buy, defensibility |
-| 4 | **Market & Industry** | TAM/SAM/SOM, growth rate, adoption curves, policy environment |
-| 5 | **Competition** | Direct/indirect/substitute, Porter's Five Forces, moat depth |
-| 6 | **Business Model** | Unit economics, CAC/LTV, revenue model, customer concentration |
-| 7 | **Financials** | Revenue quality, margin, cash flow, burn, sensitivity |
-| 8 | **Funding & Valuation** | Round history, cap table, valuation comps, margin of safety |
-| 9 | **Strategy** | Roadmap, second curve, resource-capability fit |
-| 10 | **Risk** | Probability × Impact matrix, fatal vs. manageable, black swan audit |
-| 11 | **Investment Thesis** | Non-consensus insight, bull/base/bear, variant perception |
-| 12 | **Exit Strategy** | IPO/M&A paths, historical analogs, return sensitivity |
-| 13 | **ESG & Governance** | Material ESG, data privacy, board control, compliance |
-| 14 | **Scoring & Recommendation** | Weighted scoring, position sizing, Kelly framework |
 
 ### Investor-Grade Depth
 
@@ -117,17 +100,6 @@ investment-analysis/
 
 The skill adapts its analytical lens to the company type:
 
-| Company Type | Primary Spine | Key Question |
-|-------------|--------------|-------------|
-| Public equity | earnings quality, valuation, catalysts, downside | Is the market mispricing future cash flow? |
-| Early-stage startup | team, product proof, market timing, fundraising | Can we underwrite the team's learning speed? |
-| Growth-stage | unit economics, GTM repeatability, retention | Can growth scale without destroying economics? |
-| Deep tech / hard tech | validation, manufacturing, capex, regulation | What's proven vs. what remains unproven? |
-| Biotech / medtech | clinical data, regulatory path, IP, reimbursement | Is clinical/regulatory risk priced correctly? |
-| Marketplace / platform | liquidity, network effects, take rate | Is the marketplace getting more efficient? |
-| Pre-IPO / cross-over | IPO readiness, public comps, cornerstone demand | Where will the public market clear? |
-| Policy / geopolitics-sensitive | export controls, sanctions, supply chain | Does policy create moat or hidden constraint? |
-| Special situations | asset value, catalyst, restructuring path | Is the discount to intrinsic value real? |
 
 ## The Harness Loop
 
@@ -170,15 +142,6 @@ The report should answer: *"What should an investor do now?"* — not just descr
 ### 5. Multi-Platform, One Standard
 Whether running on Claude Code, Codex, or Cursor, the same 14-dimension framework and evidence gate applies. Platform-specific profiles handle tool availability and model characteristics.
 
-## Production Track Record
-
-| Metric | Value |
-|--------|-------|
-| Companies analyzed | 46 |
-| Reports generated | 92 (HTML+PDF) |
-| Industries covered | 12 (semiconductor, aerospace, AI, robotics, quantum, fusion, BCI...) |
-| Avg report depth | 80-130 KB HTML, 400-800 KB PDF |
-| Avg analysis time | 8-15 min/company (web research + drafting + QA) |
 
 ## Requirements
 
@@ -212,5 +175,5 @@ This skill generates investment analysis reports based on publicly available inf
 ---
 
 <p align="center">
-  <sub>Built with ❤️ for investors who demand depth · <a href="https://github.com/BruceLZX/investment-analysis-skill">GitHub</a></sub>
+  <sub>Built for investors who demand depth · <a href="https://github.com/BruceLZX/investment-analysis-skill">GitHub</a></sub>
 </p>
