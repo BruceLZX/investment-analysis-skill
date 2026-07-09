@@ -17,34 +17,35 @@ Default output language: match the user's language. For Chinese requests, write 
 4. Read `references/geo_market_context_lens.md` when geography, jurisdiction, customer markets, suppliers, channels, localization, foreign comparables, capital markets, or exit paths can affect TAM, GTM, competition, pricing, risk, valuation, or strategy.
 5. Read `references/policy_geopolitics_lens.md` when policy, national strategy, international exposure, regulation, government procurement, export controls, sanctions, data security, or cross-border supply chain can affect the thesis. Choose the relevant jurisdictions and investor perspective first; do not apply one country's policy lens to all companies.
 6. Read `references/public_equity_financials_lens.md` when the company is listed, has a ticker/security code, is a liquid secondary-market target, or the user asks whether a stock is worth buying. This lens is mandatory for public equities and must be integrated into valuation, recommendation, risk, and position sizing.
-7. Run template preflight, then initialize the harness:
+7. Read `references/regulatory_database_lens.md` for every company. This lens maps each industry to its authoritative government registries (NMPA/CDE for biotech, SASAC for SOEs, MIIT/CNIPA for semiconductors, CAC for AI, CAAC for aerospace, PBOC/NFRA for fintech, and gsxt.gov.cn + wenshu.court.gov.cn as universal baselines). Search public regulatory databases for licenses, approvals, clinical trial status, patent legal status, procurement awards, and compliance records. When a database requires login or is restricted, do NOT silently skip it — emit a User Data Request telling the user exactly what to fetch, from which database, why it matters to the investment decision, and how to obtain it.
+8. Run template preflight, then initialize the harness:
 
    ```bash
    python scripts/run_analysis_harness.py preflight
    python scripts/run_analysis_harness.py init --output "[CompanyName]_[BusinessSummary]" --company "[CompanyName]" --sources [source files...]
    ```
 
-8. Put all extraction notes, OCR text, rendered pages, screenshots, search notes, and scratch work under `_work/`. Never place intermediate files in the final output root.
-9. Use `_work/research_plan.md`, `_work/source_register.md`, `_work/thesis_table.md`, `_work/scenario_analysis.md`, and `_work/red_team_review.md` as internal workflow files. Keep them current; they are deleted before delivery.
-10. Use `_work/profile_requirements.md` to enforce the selected profile. The shared skill has three managed profiles: `codex`, `claude-code-claude`, and `claude-code-deepseek-ocr`. Do not collapse them into one generic workflow; complete the profile-specific checklist before drafting.
-11. Extract and inspect user-provided materials. Copy originals into `sources/`.
-12. For public equities, capture the ticker/security code, exchange, currency, latest available share price, market cap, enterprise value if available, trading date/time, latest annual report, latest interim/quarterly report, and any post-period guidance or profit warning before drafting. Perform professional financial statement analysis across income statement, balance sheet, cash flow statement, and notes. If any item cannot be sourced, state that explicitly and do not substitute unsourced estimates.
-13. Build `_work/source_register.md` and `_work/evidence_matrix.md` before drafting. The source register must map sources to source IDs, links or file/page references, claims, confidence, and source type. The evidence matrix must cover every material section with searches, source IDs, independent sources, a primary/source-of-truth check where available, finding/fact, mechanism, quantification/proxies, benchmark or peer context, counter-evidence, investor implication, confidence, and follow-up diligence questions. For public equities, include dedicated evidence rows for market data, income statement, cash flow, balance sheet/debt, valuation, consensus/guidance, and capital allocation.
-14. Preserve source auditability in the final report. Add a visible `数据来源与引用 / Source Appendix` module with clickable links or local source paths, source type, confidence, and the claims each source supports. Inline source tags are allowed for important claims, but source tags alone are insufficient.
-15. Run the pre-draft gate before writing:
+9. Put all extraction notes, OCR text, rendered pages, screenshots, search notes, and scratch work under `_work/`. Never place intermediate files in the final output root.
+10. Use _work/research_plan.md`, `_work/source_register.md`, `_work/thesis_table.md`, `_work/scenario_analysis.md`, and `_work/red_team_review.md` as internal workflow files. Keep them current; they are deleted before delivery.
+11. Use _work/profile_requirements.md` to enforce the selected profile. The shared skill has three managed profiles: `codex`, `claude-code-claude`, and `claude-code-deepseek-ocr`. Do not collapse them into one generic workflow; complete the profile-specific checklist before drafting.
+12. Extract and inspect user-provided materials. Copy originals into `sources/`.
+13. For public equities, capture the ticker/security code, exchange, currency, latest available share price, market cap, enterprise value if available, trading date/time, latest annual report, latest interim/quarterly report, and any post-period guidance or profit warning before drafting. Perform professional financial statement analysis across income statement, balance sheet, cash flow statement, and notes. If any item cannot be sourced, state that explicitly and do not substitute unsourced estimates.
+14. Build `_work/source_register.md` and `_work/evidence_matrix.md` before drafting. The source register must map sources to source IDs, links or file/page references, claims, confidence, and source type. The evidence matrix must cover every material section with searches, source IDs, independent sources, a primary/source-of-truth check where available, finding/fact, mechanism, quantification/proxies, benchmark or peer context, counter-evidence, investor implication, confidence, and follow-up diligence questions. For public equities, include dedicated evidence rows for market data, income statement, cash flow, balance sheet/debt, valuation, consensus/guidance, and capital allocation.
+15. Preserve source auditability in the final report. Add a visible `数据来源与引用 / Source Appendix` module with clickable links or local source paths, source type, confidence, and the claims each source supports. Inline source tags are allowed for important claims, but source tags alone are insufficient.
+16. Run the pre-draft gate before writing:
 
    ```bash
    python scripts/run_analysis_harness.py gate --output "[output folder]"
    ```
 
-16. Draft the HTML report using the current `templates/report_template.html` only. The generated HTML must retain `data-template-version="codex-compact-toc-v3"` and must not contain old overlay TOC ids such as `openToc`, `tocBackdrop`, or `closeToc`. The report may reorder or merge the 14 coverage areas when the company requires a different narrative, but it must still cover all material areas.
-17. Generate PDF:
+17. Draft the HTML report using the current `templates/report_template.html` only. The generated HTML must retain `data-template-version="codex-compact-toc-v3"` and must not contain old overlay TOC ids such as `openToc`, `tocBackdrop`, or `closeToc`. The report may reorder or merge the 14 coverage areas when the company requires a different narrative, but it must still cover all material areas.
+18. Generate PDF:
 
    ```bash
    python scripts/generate_pdf.py "[report.html]" "[report.pdf]"
    ```
 
-18. Run the QA loop after drafting and PDF generation. The loop is valid only when `_work/` still contains completed profile requirements, research, source register, thesis table, scenario analysis, red-team review, and evidence matrix. If `_work/` is absent or the loop fails, the report has not passed harness QA.
+19. Run the QA loop after drafting and PDF generation. The loop is valid only when `_work/` still contains completed profile requirements, research, source register, thesis table, scenario analysis, red-team review, and evidence matrix. If `_work/` is absent or the loop fails, the report has not passed harness QA.
 
    ```bash
    python scripts/run_analysis_harness.py loop --output "[output folder]" --html "[report.html]" --pdf "[report.pdf]"
@@ -53,19 +54,19 @@ Default output language: match the user's language. For Chinese requests, write 
    If the loop fails, return to search/evidence gathering and rewrite the weak sections. Do not solve failures by adding generic wording without new evidence.
    When the loop fails, the harness generates `_work/rewrite_plan.md` when an HTML report exists. Treat every unchecked item in that file as mandatory; `gate` will fail until the rewrite checklist is resolved.
 
-19. Re-run the QA loop after every material rewrite or PDF regeneration, visually check HTML/PDF when possible, then clean. `clean` now runs report QA first when an HTML report exists; if QA fails, cleanup is blocked so `_work/` remains available for repair. Do not run or claim harness-loop QA after cleanup.
+20. Re-run the QA loop after every material rewrite or PDF regeneration, visually check HTML/PDF when possible, then clean. `clean` now runs report QA first when an HTML report exists; if QA fails, cleanup is blocked so `_work/` remains available for repair. Do not run or claim harness-loop QA after cleanup.
 
    ```bash
    python scripts/run_analysis_harness.py clean --output "[output folder]"
    ```
 
-20. Run the post-clean final check. This is mandatory for Codex because `clean_output.py` alone only verifies folder cleanliness, not report quality.
+21. Run the post-clean final check. This is mandatory for Codex because `clean_output.py` alone only verifies folder cleanliness, not report quality.
 
    ```bash
    python scripts/run_analysis_harness.py final-check --output "[output folder]" --html "[report.html]" --pdf "[report.pdf]"
    ```
 
-21. Final output folder must contain only:
+22. Final output folder must contain only:
 
    ```text
    [CompanyName]_[BusinessSummary]/
