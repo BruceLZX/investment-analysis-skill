@@ -1,0 +1,6 @@
+.DS_Store
+__pycache__/
+*.pyc
+_work/
+rendered/
+.DS_Store

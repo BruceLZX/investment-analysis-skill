@@ -1,0 +1,20 @@
+# 投资分析报告 - Python 依赖
+# Investment Analysis Report - Python Dependencies
+
+# 推荐：纯Python HTML转PDF（需要系统pango库）
+weasyprint>=60.0
+
+# 备选：需要系统安装 wkhtmltopdf
+# pdfkit>=1.0.0
+
+# 材料解析辅助（可选，按任务需要安装）
+# pypdf>=4.0.0
+# pdfplumber>=0.11.0
+# python-pptx>=0.6.23
+# python-docx>=1.1.0
+# openpyxl>=3.1.0
+# pytesseract>=0.3.10
+
+# 数据处理辅助（可选）
+# pandas>=2.0.0
+# numpy>=1.24.0

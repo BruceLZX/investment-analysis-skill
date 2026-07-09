@@ -1,0 +1,7 @@
+interface:
+  display_name: "Investment Analysis"
+  short_description: "Company diligence with financials, market, policy, and valuation analysis"
+  default_prompt: "Use $investment-analysis to research a company, stock, or pitch deck and produce an evidence-based investment memo with financial statements, stock-price context, market, policy, risk, and valuation analysis."
+
+policy:
+  allow_implicit_invocation: true
