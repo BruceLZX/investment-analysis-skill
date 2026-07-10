@@ -4,6 +4,35 @@ Use this playbook for every company analysis. It raises the mandatory depth stan
 
 This playbook is mandatory for all company types. For public equities, some sections (equity structure, financials) will have richer data sources; for early-stage startups, some sections will require more effort to source.
 
+## The Granularity Benchmark
+
+Professional investment analysis is defined by **specificity**, not length. A 200-page report that uses vague language is worse than a 50-page report where every claim has a number attached. The following standards are non-negotiable:
+
+### Numbers Must Be Precise
+- ❌ "approximately 45%" → ✅ "43.1373%" or "43.1%" (state source and confidence)
+- ❌ "hundreds of patents" → ✅ "69 granted patents + 12 pending across US/CN/EP"
+- ❌ "founded in 2023" → ✅ "2023年10月15日" or "2023年10月"
+- ❌ "raised several hundred million" → ✅ "$75M Series B at $450M pre-money (2025-03-15)"
+- ❌ "large facility" → ✅ "16,000平方米，含二类/三类有源医疗器械GMP厂房"
+
+### People Must Be Traceable
+- ❌ "毕业于知名大学" → ✅ "本科 中国科学技术大学 机械电子工程；硕士 香港理工大学 软件工程"
+- ❌ "曾在多家公司工作" → ✅ each role: company + title + dates + specific achievements
+- ❌ "行业资深人士" → ✅ "69篇同行评审论文；曾任职于Neuralink担任临床合作负责人"
+- Every founder bio must trace from undergraduate through highest degree
+- Every key hire must have: institution + degree + year + prior employer + role + achievements
+
+### Events Must Be Dated
+- ❌ "recently completed funding" → ✅ "2026年6月26日，超级工厂一期竣工投运"
+- ❌ "has partnerships with hospitals" → ✅ "与上海华山医院、上海市精神卫生中心、华西医院共建联合实验室"
+- ❌ "attended by investors" → ✅ "华映资本季薇、清松资本张松、戈壁创投唐啟波、傅利叶顾捷出席剪彩"
+
+### If Data Is Unavailable
+- State EXACTLY what is missing (e.g., "注册资本未公开" not "信息不足")
+- Explain how material the gap is to the investment decision
+- List what source would resolve it (e.g., "需查阅工商登记档案")
+- NEVER fill the gap with vague language that sounds informative but conveys no data
+
 ---
 
 ## Section 1: Company Overview — Forensic Identity

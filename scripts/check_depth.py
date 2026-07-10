@@ -41,6 +41,38 @@ SHALLOW_PHRASES = [
     "具有较大潜力",
 ]
 
+# Granularity violations — phrases that signal insufficient specificity
+VAGUE_PATTERNS = [
+    (r'(?:approximately|大约|约|大概|左右)\s*\d+', "Approximation where exact number should exist"),
+    (r'(?:毕业于|曾在|工作于)(?:知名|著名|顶尖|一流)(?:大学|公司|企业|机构)', "Career/education detail insufficient — name the institution"),
+    (r'(?:持有|拥有)(?:大量|众多|多个|多项)(?:专利|知识产权)', "Patent count not specified — give exact or estimated number"),
+    (r'(?:团队|创始人|高管)(?:经验丰富|背景优秀|能力突出)', "Team quality claimed without evidence"),
+    (r'(?:估值|营收|利润)(?:合理|可观|良好|不错)', "Financial claim without specific number"),
+    (r'未公开(?:\s*披露)?\s*(?:具体)?(?:\s*数据|\s*信息)?(?:\.|。)', "Missing data not acknowledged with materiality assessment"),
+]
+
+# Minimum granularity checks per section
+GRANULARITY_CHECKS = {
+    "company_overview": [
+        (r'\d{4}\s*年\s*\d{1,2}\s*月\s*\d{1,2}\s*日', "Specific founding date (YYYY年MM月DD日)"),
+        (r'(?:注册资本|registered capital).{0,20}\d+', "Registered capital with amount"),
+        (r'\d+\.?\d*\s*%', "At least one equity percentage"),
+    ],
+    "team": [
+        (r'(?:本科|学士|B\.S\.|B\.A\.|Bachelor).{0,50}(?:大学|学院|University|College)', "At least one undergrad institution"),
+        (r'(?:硕士|M\.S\.|M\.A\.|Master|Ph\.D|博士|Doctor).{0,50}(?:大学|学院|University|College)', "At least one graduate degree institution"),
+        (r'(?:曾任|曾任职于|此前在|之前于|worked at|previously at)', "At least one prior employer"),
+    ],
+    "technology": [
+        (r'(?:专利号|Patent\s*(?:No|Number|#)|CN\d+|US\d+|WO\d+|EP\d+)', "At least one specific patent number"),
+        (r'\b\d{4}-\d{2}-\d{2}\b', "At least one specific date (patent filing/grant)"),
+    ],
+    "competition": [
+        (r'(?:对比|vs\.?|versus|相较于|优于|差于)', "Head-to-head comparison language"),
+        (r'(?:市场份额|market share|市占率).{0,30}\d+\.?\d*\s*%', "Specific market share number"),
+    ],
+}
+
 BOILERPLATE_LIMITS = [
     ("repeated investor-read callout", r"投资人读法", 2),
     ("repeated source-note paragraph", r'class="source-note"', 2),
@@ -252,10 +284,12 @@ def main() -> int:
             f"{paragraph[:140]}"
         )
 
+    section_texts = {}
     for match in matches:
         section_num = match.group("num")
         body = match.group("body")
         text = strip_html(body)
+        section_texts[section_num] = text
         text_len = len(text)
         numbers = count_numbers(text)
         sources = count_sources(body, text)
@@ -317,8 +351,48 @@ def main() -> int:
         print_failures(failures)
         return 1
 
-    print("Depth QA passed.")
+    # Granularity checks (report-wide)
+    granularity_failures = check_granularity(visible_text, section_texts)
+    if granularity_failures:
+        print("Granularity QA failed (specificity benchmark not met):")
+        for f in granularity_failures:
+            print(f"- {f}")
+        return 1
+
+    # Vague pattern check (report-wide)
+    for pattern, label in VAGUE_PATTERNS:
+        hits = re.findall(pattern, visible_text)
+        if len(hits) > 2:  # Allow 1-2 instances but flag patterns
+            failures.append(f"Granularity: {len(hits)} instances of vague pattern '{label}'. Replace with specific data or explicitly state missing.")
+
+    if failures:
+        print_failures(failures)
+        return 1
+
+    print("Depth QA passed (including granularity benchmark).")
     return 0
+
+
+def check_granularity(visible_text: str, section_texts: dict[str, str]) -> list[str]:
+    """Check that key sections meet the granularity benchmark — specific numbers, names, dates."""
+    failures = []
+    section_map = {
+        "1": "company_overview",
+        "2": "team",
+        "3": "technology",
+        "5": "competition",
+    }
+    for sec_num, check_key in section_map.items():
+        if check_key not in GRANULARITY_CHECKS:
+            continue
+        sec_text = section_texts.get(sec_num, "")
+        if not sec_text:
+            failures.append(f"Section {sec_num} ({check_key}): missing — cannot verify granularity.")
+            continue
+        for pattern, label in GRANULARITY_CHECKS[check_key]:
+            if not re.search(pattern, sec_text, re.I):
+                failures.append(f"Section {sec_num} ({check_key}): missing granularity marker — {label}")
+    return failures
 
 
 if __name__ == "__main__":
