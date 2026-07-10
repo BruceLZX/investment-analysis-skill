@@ -244,6 +244,64 @@ def red_team_template() -> str:
     )
 
 
+def investor_review_template(company: str) -> str:
+    return "\n".join(
+        [
+            "# Investor Committee Review",
+            "",
+            f"Company: {company or 'TODO'}",
+            "",
+            "Complete this review AFTER drafting the report. Read the report as a skeptical investment committee member. Challenge every claim, flag every gap. The analyst must resolve all Critical items before proceeding.",
+            "",
+            "## Round 1: Completeness Gaps",
+            "",
+            "### Critical (Must Fix Before Final)",
+            "- [ ] ",
+            "- [ ] ",
+            "",
+            "### Important (Should Fix)",
+            "- [ ] ",
+            "- [ ] ",
+            "",
+            "### Minor (Nice to Have)",
+            "- [ ] ",
+            "",
+            "## Round 2: Claim Verification Issues",
+            "",
+            "| Claim (Report Text) | Source Quality | Issue | Action Required |",
+            "|---------------------|---------------|-------|-----------------|",
+            "| | | | |",
+            "",
+            "## Round 3: Missing Competitors",
+            "",
+            "| Competitor | Why Missing | Threat Level | Action |",
+            "|-----------|-------------|-------------|--------|",
+            "| | | High/Med/Low | |",
+            "",
+            "## Round 4: Product/Market Fit Questions",
+            "",
+            "1. ",
+            "2. ",
+            "",
+            "## Round 5: Number Stress-Test",
+            "",
+            "| Number in Report | Source | If 30% Worse | Still Works? |",
+            "|-----------------|--------|-------------|-------------|",
+            "| | | | |",
+            "",
+            "## Overall Assessment",
+            "",
+            "- Report depth grade: [A/B/C/D/F]",
+            "- Top 3 things to fix:",
+            "  1.",
+            "  2.",
+            "  3.",
+            "- Ready for investment decision? [Yes/No/With fixes above]",
+            "",
+        ]
+    )
+
+
 def scenario_analysis_template(company: str) -> str:
     return "\n".join(
         [
@@ -383,6 +441,7 @@ def init(args: argparse.Namespace) -> int:
     write_if_missing(output_dir / "_work" / "thesis_table.md", thesis_table_template())
     write_if_missing(output_dir / "_work" / "scenario_analysis.md", scenario_analysis_template(args.company))
     write_if_missing(output_dir / "_work" / "red_team_review.md", red_team_template())
+    write_if_missing(output_dir / "_work" / "investor_review.md", investor_review_template(args.company))
     write_if_missing(
         output_dir / "_work" / "iteration_log.md",
         "# Iteration Log\n\nRecord each QA failure, additional search pass, rewrite, and final resolution here. Delete `_work/` before delivery.\n",
@@ -419,6 +478,7 @@ def gate(args: argparse.Namespace) -> int:
         output_dir / "_work" / "thesis_table.md",
         output_dir / "_work" / "evidence_matrix.md",
         output_dir / "_work" / "scenario_analysis.md",
+        output_dir / "_work" / "investor_review.md",
     ]
     missing = [path for path in required if not path.exists()]
     if missing:
