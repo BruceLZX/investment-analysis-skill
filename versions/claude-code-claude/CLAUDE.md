@@ -36,7 +36,9 @@ Read `references/section_deepening.md` only for sections that need planning or r
 - Use web search, local source extraction, filings, company materials, investor announcements, regulatory databases, patents, and industry reports as evidence.
 - Treat `_work/source_register.md` as the citation ledger. Use visible source IDs such as `[S1]` in the HTML, link web sources, and cite local files with filename plus page/slide/table where possible.
 - For policy-sensitive sectors, use primary policy sources where possible: laws, official plans, procurement notices, standards bodies, export-control lists, sanctions lists, regulatory approvals, official budgets, and filings. Separate home-market, revenue-market, supplier-market, listing-market, and acquirer-market rules.
-- Keep the research plan, source register, evidence matrix, thesis table, red-team review, interim notes, rendered pages, OCR text, and search logs in `_work/`.
+- Before drafting, read `references/company_deep_dive_playbook.md` for the mandatory forensic depth standard across all seven deep-dive areas.
+- After drafting, use `references/investor_reviewer_lens.md` as a simulated investment committee reviewer. Challenge every claim, flag every gap. All Critical items must be resolved before the report can proceed.
+- Keep the research plan, source register, evidence matrix, thesis table, scenario analysis, red-team review, investor review, interim notes, rendered pages, OCR text, and search logs in `_work/`.
 - Final output must contain only `sources/`, HTML report, and PDF report.
 
 ## Claude Profile Specialization

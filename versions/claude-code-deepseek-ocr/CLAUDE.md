@@ -48,6 +48,8 @@ Read `references/section_deepening.md` only for sections that need planning or r
 - For policy-sensitive pitch decks, verify policy claims against primary policy sources in the relevant jurisdictions; do not accept vague phrases like "政策支持", "国产替代", "national strategy", "EU compliant", or "US approved" without matching them to a specific policy, budget, procurement path, standard, license, approval, or export-control constraint.
 - For charts: capture axis labels, units, dates, legends, sample sizes, and whether the chart is cumulative or period-specific. Watch for truncated y-axes, cherry-picked time periods, and cumulative-vs-periodic ambiguity.
 - For tables: verify row/column alignment after OCR before using any number. Cross-check totals against components when both are shown.
+- For every company, apply the forensic depth standard from `references/company_deep_dive_playbook.md`. When source files are OCR-dependent, mark extracted numbers and claims as lower confidence and widen uncertainty bands.
+- After drafting, apply `references/investor_reviewer_lens.md` as a simulated investment committee reviewer. OCR-derived claims should receive extra scrutiny in the claim verification round.
 
 ## Report Expectations
 
