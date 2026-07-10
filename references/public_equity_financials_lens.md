@@ -4,18 +4,118 @@ Use this lens for listed companies, liquid secondary-market targets, tickers/sec
 
 ## Core Question
 
-Decide whether the current share price misprices future cash flow, asset value, risk, or catalysts.
+Decide whether the current share price misprices future cash flow, asset value, risk, or catalysts — **in the context of the current market regime, macro environment, and policy landscape.**
 
 The report must answer:
 
 1. What is the stock, exchange, currency, latest price, trading date/time, market cap, and enterprise value if available?
-2. What financial statements are the source of truth, and what period do they cover?
-3. Are revenue, earnings, and cash flow improving for durable reasons or temporary reasons?
-4. What do the income statement, balance sheet, cash flow statement, and notes reveal when read together?
-5. Is the balance sheet healthy enough to survive the bear case?
-6. Is valuation attractive relative to growth, quality, cyclicality, leverage, and peers?
-7. What catalyst or evidence would make the market re-rate the stock?
-8. What position size is justified by downside risk and evidence confidence?
+2. **What is the current market regime, and how does it affect this stock?** (bull/bear, sector rotation, risk appetite, liquidity, rates)
+3. **How does the current international situation and policy landscape affect this company?** (trade policy, sanctions, geopolitical tensions, currency movements, capital controls)
+4. What financial statements are the source of truth, and what period do they cover?
+5. Are revenue, earnings, and cash flow improving for durable reasons or temporary reasons?
+6. What do the income statement, balance sheet, cash flow statement, and notes reveal when read together?
+7. Is the balance sheet healthy enough to survive the bear case?
+8. Is valuation attractive relative to growth, quality, cyclicality, leverage, and peers?
+9. What catalyst or evidence would make the market re-rate the stock?
+10. What position size is justified by downside risk, evidence confidence, and macro exposure?
+
+---
+
+## Part A: Market Regime & Macro Overlay (Mandatory for All Public Equities)
+
+This section must appear in the investment report before the financial statement analysis. It frames *when* and *under what conditions* the stock is being evaluated — a great company at the wrong macro moment can destroy as much capital as a bad company.
+
+### A1. Current Market Regime Assessment
+
+Capture the state of the market in which the stock trades:
+
+| Dimension | What to Check | Why It Matters |
+|-----------|--------------|----------------|
+| **Broad index trend** | S&P 500 / SSE Composite / HSI / Nikkei level, YTD return, distance from 52W high/low | Context for beta and sentiment |
+| **Market phase** | Bull market / correction / bear market / bottoming / topping | Determines whether fundamentals or liquidity dominate |
+| **Sector rotation** | Is capital flowing into or out of this sector? Check sector ETF flows, relative strength vs. broad index | A stock can beat estimates and still fall if its sector is being rotated out of |
+| **VIX / fear gauge** | Current VIX or equivalent, trend, percentile rank | High VIX = options premium matters, low VIX = complacency risk |
+| **Interest rate environment** | Central bank policy rate, latest decision/guidance, 2Y/10Y yield, curve shape | Discount rate for DCF; growth vs. value preference |
+| **Credit spreads** | IG and HY spreads, trending wider or tighter | Leading indicator of stress; affects leveraged companies |
+| **Liquidity conditions** | Fed/ECB/PBOC balance sheet direction, reverse repo, MLF/LPR, SHIBOR | Drives multiple expansion or contraction |
+| **Currency regime** | USD/CNY, DXY, relevant cross rates, FX volatility | Directly affects companies with foreign revenue/costs/debt |
+| **Commodity pulse** | Oil, copper, lithium, steel — whichever inputs/outputs are material to the company | Input cost and end-demand signal |
+
+**Output:** A 3-5 sentence "Market Snapshot" paragraph at the beginning of the executive briefing, e.g.:
+
+> *As of 2026-07-10, the Hang Seng Index trades at 21,400 (-8% from its 52W high of 23,200), with the market in a consolidation phase following a 35% rally from Jan-Mar 2026. AI/semiconductor names continue to see inflows (+12% sector relative strength over 3M), while traditional consumption faces rotation pressure. The PBOC cut the 1Y MLF rate by 10bp in June, signaling continued accommodation. CNY has weakened 3.2% vs USD over the past quarter — a tailwind for exporters but a headwind for USD-denominated debtors.*
+
+### A2. Stock Price & Trading Context
+
+Go beyond "price = $X" and provide the trading narrative:
+
+| Element | What to Capture |
+|---------|----------------|
+| **Price snapshot** | Last price, date/time, exchange, currency, market cap (local + USD), enterprise value |
+| **Trading range** | 52W high/low, YTD high/low, distance from each; is the stock near a support/resistance zone? |
+| **Price momentum** | 1M/3M/6M/1Y return vs. sector index vs. broad market — is this a leader or laggard? |
+| **Volume profile** | Average daily volume (shares + USD), recent volume trend; is liquidity sufficient for the intended position size? |
+| **Short interest** | % of float short, days to cover, trend (rising/falling) — potential squeeze risk or smart-money signal |
+| **Insider trading** | Recent insider buys/sells (volume and direction over 3-6 months) — management conviction signal |
+| **Institutional ownership** | % held by institutions, recent filings (13F for US, 季度报告 for CN mutual funds) — smart money tracking |
+| **Analyst consensus** | Number of analysts, rating distribution (buy/hold/sell), consensus target price, estimate dispersion |
+| **Earnings surprise history** | Last 4-8 quarters: beat/miss pattern, post-earnings drift direction |
+| **Technical context** | Key moving averages (50D/200D), relative strength vs. sector, any obvious chart patterns (breakout, breakdown, range-bound) |
+
+**Output:** A "Trading Snapshot" table early in the report:
+
+```
+| Metric | Value | Signal |
+|--------|-------|--------|
+| Last price | HK$ 385.20 (2026-07-10) | — |
+| 52W range | HK$ 298 - 458 | Trading at 62nd percentile |
+| YTD return | +14.3% vs. HSI -2.1% | Outperforming |
+| Avg daily volume | HK$ 2.1B | Liquid for positions up to HK$ 500M |
+| Short interest | 3.2% of float, 4.5 days to cover | Moderate, no squeeze signal |
+| Insider trading (6M) | Net buyer (+HK$ 120M) | Mildly bullish |
+| Consensus | 28 Buy / 6 Hold / 1 Sell; target HK$ 442 | 15% upside to consensus |
+```
+
+### A3. International Situation & Policy Impact
+
+This is the "geopolitical and policy P&L" — map external forces to concrete financial impact on the company:
+
+| Policy / Geopolitical Dimension | Assessment Framework |
+|--------------------------------|---------------------|
+| **Trade policy & tariffs** | Active tariffs on company's products/inputs? Pending investigations? Effective rate and revenue/cost exposure % |
+| **Export controls / sanctions** | Is the company, its suppliers, or its customers on any entity list? Dual-use technology risk? Secondary sanctions exposure? |
+| **Cross-border investment restrictions** | CFIUS/FIRRMA/inbound screening, outbound investment restrictions, capital controls — do any block the company's M&A, fundraising, or market access? |
+| **Supply chain sovereignty** | Is the company's supply chain subject to "de-risking," "friend-shoring," or forced localization? Chips Act / IRA / EU Chips Act / China self-sufficiency policies — who benefits, who loses? |
+| **Data & cybersecurity regulation** | GDPR / DSA / PIPL / data localization requirements, cross-border data transfer restrictions, algorithm audits |
+| **Currency & capital flow** | FX exposure (revenue, cost, debt by currency), hedging policy, convertibility risk, capital control risk |
+| **Geopolitical hotspots** | Taiwan Strait, South China Sea, Russia-Ukraine, Middle East — does the company have material assets, supply chains, or customers in affected regions? |
+| **Election / policy calendar** | Upcoming elections, leadership transitions, policy reviews that could change the regulatory landscape materially |
+
+**Output:** A "Policy & Geopolitics Impact Matrix" table:
+
+```
+| Factor | Exposure | Probability | Impact on Company | Mitigant |
+|--------|----------|-------------|-------------------|----------|
+| US Section 301 tariff (25% on [product]) | 18% of revenue from US | Active | -$4.5B annual revenue at risk | [Mitigant] |
+| EU anti-subsidy investigation | 12% of revenue from EU | 30% in 12 months | -$3.0B if duties imposed | [Mitigant] |
+| CNY depreciation (3-5% further) | 40% of COGS in USD | Medium | Margin compression 80-120bp | [Mitigant] |
+| Taiwan Strait escalation | Factory in Kaohsiung (15% capacity) | 10% tail risk | Supply disruption 2-4 quarters | [Mitigant] |
+```
+
+### A4. Regime-Appropriate Strategy
+
+Tie the macro assessment to investment action:
+
+| Market Regime | Implication for This Stock | Position Approach |
+|--------------|---------------------------|-------------------|
+| Risk-on / bull market | High-beta stocks outperform; growth story gets rewarded | Can size up, focus on upside |
+| Risk-off / bear market | Quality and low leverage outperform; cyclicals punished | Defensive sizing, focus on balance-sheet strength |
+| Sector rotation in | Tailwind regardless of fundamentals | Time entries, can add on strength |
+| Sector rotation out | Headwind — good results may not be rewarded | Reduce, wait for capitulation |
+| High volatility (VIX > 25) | Options premium high; sharp reversals common | Scale in slowly, use limit orders |
+| Policy uncertainty elevated | Multiple compression likely | Discount target multiple by 10-20% |
+
+This regime assessment should directly inform the position sizing recommendation in the final scoring section.
 
 ## Source Priority
 
