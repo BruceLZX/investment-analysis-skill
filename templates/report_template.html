@@ -824,6 +824,57 @@
             margin-left: 4px;
         }
 
+        .source-tag {
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.15s ease;
+        }
+
+        .source-tag:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        /* Source Appendix */
+        .source-appendix-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .source-appendix-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--line);
+            vertical-align: top;
+        }
+
+        .source-appendix-table .src-id {
+            font-weight: 800;
+            color: var(--accent);
+            white-space: nowrap;
+            width: 40px;
+        }
+
+        .source-appendix-table .src-desc {
+            font-weight: 650;
+        }
+
+        .source-appendix-table .src-url {
+            font-size: 11px;
+            color: var(--muted);
+            word-break: break-all;
+        }
+
+        .source-appendix-table .src-url a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .source-appendix-table .src-url a:hover {
+            text-decoration: underline;
+        }
+
         .conf-high { background: #dcfce7; color: #14532d; border-color: #bbf7d0; }
         .conf-medium { background: #fef9c3; color: #713f12; border-color: #fde68a; }
         .conf-low { background: #fee2e2; color: #7f1d1d; border-color: #fecaca; }
@@ -1427,6 +1478,18 @@
                     <span class="section-toggle">收起</span>
                 </button>
                 <div class="section-body" id="s14-body">{{SECTION_14}}</div>
+            </section>
+
+            <!-- Source Appendix -->
+            <section class="section-card" id="sources-appendix">
+                <button class="section-heading" type="button" aria-expanded="true" aria-controls="sources-appendix-body">
+                    <span class="section-index">📚</span>
+                    <span class="section-title"><strong>数据来源与引用 (Source Appendix)</strong><span>Source Appendix</span></span>
+                    <span class="section-toggle">收起</span>
+                </button>
+                <div class="section-body" id="sources-appendix-body">
+                    {{SOURCE_APPENDIX}}
+                </div>
             </section>
         </main>
 

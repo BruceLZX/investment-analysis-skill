@@ -147,7 +147,10 @@ Use `templates/report_template.html` and replace:
 - `{{STAGE}}`
 - `{{EXECUTIVE_SUMMARY}}`
 - `{{SECTION_1}}` through `{{SECTION_14}}`
+- `{{SOURCE_APPENDIX}}`
 - `{{YEAR}}`
+- Source tags in body text (`[S1]`, `[S2]`, etc.) should link to the appendix via `<a href="#src-S1" class="source-tag">[S1]</a>`
+- Source appendix rows must follow: `<tr id="src-S1"><td class="src-id">S1</td><td class="src-desc">Source description</td><td class="src-url"><a href="URL">URL or file path</a></td><td class="src-conf">置信度</td></tr>`
 
 **Mandatory visual components — these classes MUST appear at least once in every report:**
 
