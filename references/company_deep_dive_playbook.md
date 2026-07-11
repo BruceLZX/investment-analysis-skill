@@ -453,53 +453,95 @@ For each international market the company operates in or plans to enter:
 
 ---
 
-## Section 6: Competition — Complete Landscape Mapping
+## Section 6: Competition — Per-Product Forensic Mapping
 
-### 6.1 Full Competitor Database
+**CRITICAL: Competition is per-product, NOT per-company. A company with 4 products faces 4 DIFFERENT competitive landscapes.** Lumping all competitors into one table under "the company competes with Medtronic and Abbott" is analytically useless — Medtronic's DBS for Parkinson's does NOT compete with a non-invasive tibial nerve stimulator for OAB. The analyst MUST build a separate competitive landscape for EACH product.
 
-Do not cherry-pick competitors. List **ALL** material competitors in the company's space:
+### 6.0 Pre-Draft Gate: Per-Product Competitor Identification
+
+Before writing the competition section, the analyst must:
+
+1. List every product the company has (commercial, clinical, preclinical, R&D)
+2. For EACH product, search: "[product category] competitors", "[specific indication] treatment options", "[product type] FDA approved", "[product type] NMPA approved"
+3. Search PubMed/ClinicalTrials.gov: "[indication] [technology type]" to find ALL clinical-stage competitors
+4. Search government procurement databases for the specific product category
+5. Search patent databases for competitive filings in the specific technology area
+6. Do NOT combine competitors across products — build separate competitor maps
+
+### 6.1 Per-Product Competitor Database Template
+
+For EACH product, build this table:
 
 ```
-### Competitor: [Company Name]
+### Product: [Product Name] — [Indication]
 
-**Basic Information:**
-- Founded: [YYYY] | HQ: [City, Country] | Employees: [~X]
-- Total Funding: $[X] | Last Round: Series [X], $[X] at $[X] valuation ([YYYY-MM])
-- Public/Private: [Status] | Ticker: [XXX] | Market Cap: $[X]
-- Key Investors: [List]
+#### Direct Competitors (Same Indication, Same Technology Route)
 
-**Product Comparison:**
-| Dimension | Our Company | This Competitor |
-|-----------|------------|-----------------|
-| Product/Service | [Description] | [Description] |
-| Technology Approach | [Approach] | [Approach] |
-| Target Customer | [Segment] | [Segment] |
-| Pricing | [Model/Price] | [Model/Price] |
-| Market Share (est.) | [X]% | [Y]% |
-| Key Strength | [Their advantage] | [Their advantage] |
-| Key Weakness | [Our vulnerability] | [Their vulnerability] |
+| Competitor | Product Name | Technology | Regulatory Status | Efficacy Data | Price | Market Share | Strengths vs Us | Weaknesses vs Us |
+|-----------|-------------|-----------|-------------------|---------------|-------|-------------|-----------------|-----------------|
+| [A] | [X] | [Approach] | FDA/NMPA [status] | [Key clinical result] | $[X] | [X]% | [Why they win] | [Where we win] |
 
-**Financial Comparison (if available):**
-| Metric | Our Company | This Competitor |
-|--------|------------|-----------------|
-| Revenue (2025) | $X | $Y |
-| Revenue Growth (YoY) | X% | Y% |
-| Gross Margin | X% | Y% |
-| Funding/Cash | $X | $Y |
-| Valuation | $X | $Y |
+#### Indirect Competitors (Same Indication, Different Technology)
+
+| Competitor | Product/Approach | Technology Route | Why Customers Choose This Instead |
+|-----------|-----------------|-----------------|----------------------------------|
+| [Current Standard of Care] | [Drug/Surgery/Device] | [Pharma/Surgical/Behavioral] | [Reason for preference] |
+
+#### Pipeline Competitors (Same Indication, Clinical/Preclinical Stage)
+
+| Company | Product | Stage | Key Differentiator | Expected Launch | Threat Level |
+|---------|---------|-------|-------------------|----------------|-------------|
+| [Name] | [X] | Phase [I/II/III] | [Advantage] | [Year] | [High/Med/Low] |
+
+#### Status Quo / "Do Nothing" Competitor
+
+- What patients currently do: [describe current standard of care, including "just live with it" for untreated conditions]
+- Why they don't adopt existing solutions: [cost, invasiveness, side effects, lack of access]
+- What would make them switch: [our product's specific advantage]
 ```
 
-### 6.2 Competitive Positioning Map
+### 6.2 Example: 复远数科 Per-Product Competition (Illustrative)
 
-Create a structured positioning view:
+**Product 1: CSNS (SCI Cervical Stimulation)**
+- Direct competitors: ARCEX (ONWARD Medical, Swiss), ExaStim (GTX Medical, Netherlands), TESCoN device (various academic)
+- NOT competitors: Medtronic Intellis SCS (different approach—invasive, different indication—pain, different patient segment—lumbar)
+- Pipeline: NCT07361627 (Montreal), NCT07423949 (UBC), NCT07334977 (France)
 
-| | Market Leader | Strong Challenger | Niche Player | Emerging Threat | Not a Threat |
-|---|---|---|---|---|---|
-| **Direct Competitor** | [Name] | [Name] | [Name] | [Name] | [Name] |
-| **Indirect/Substitute** | [Name] | [Name] | — | [Name] | — |
-| **Adjacent (may enter)** | — | — | [Name] | [Name] | — |
+**Product 2: 胫享™ TNS (OAB Tibial Nerve Stimulation)**
+- Direct competitors: Urgent PC (Laborie, percutaneous PTNS), eCoin (Valencia Technologies, implantable), RENOVA (Stimwave, implantable), TENSmini (academic wearable)
+- NOT competitors: Medtronic InterStim (sacral, not tibial; invasive, not transcutaneous), Axonics (sacral, implantable)
+- Indirect: Anticholinergics (tolterodine, solifenacin), β3-agonists (mirabegron), Botox injections
 
----
+**Product 3: PNS (VTE Neuromuscular Stimulation)**
+- Direct competitors: geko (Firstkind, UK), VenaPulse (various), traditional IPC devices (Covidien, Cardinal Health)
+- NOT competitors: Eliquis/Xarelto (anticoagulant drugs — different mechanism, complementary not competing)
+
+**Product 4: OSA Hypoglossal Nerve Stimulator (R&D)**
+- Direct competitors: Inspire (Inspire Medical Systems, FDA approved), Genio (Nyxoah, CE mark), aura6000 (LivaNova, clinical)
+- NOT competitors: CPAP machines (ResMed, Philips — different technology route, first-line not surgical)
+
+### 6.3 Competitive Positioning Map (Per Product)
+
+For EACH product, create a separate positioning map:
+
+| | Market Leader | Strong Challenger | Niche Player | Emerging Threat |
+|---|---|---|---|---|
+| **Product 1: [Name]** | [Company/Product] | [Company/Product] | [Company/Product] | [Company/Product] |
+| **Product 2: [Name]** | [DIFFERENT Company] | [DIFFERENT Company] | — | [DIFFERENT Company] |
+
+**Do not fill the same companies into every product row. If they appear in multiple rows, justify why.**
+
+### 6.4 Source Authority Requirements for Competition Analysis
+
+For each competitor identified, the analyst MUST cite at least ONE authoritative source:
+- Company's own website/IR page (product description, indications, regulatory status)
+- FDA/NMPA regulatory database (approval status, device classification)
+- ClinicalTrials.gov registration (trial phase, endpoints, enrollment)
+- Published clinical data (PubMed-indexed paper with sample size and results)
+- Company filings (10-K, prospectus, annual report for public companies)
+- Patent database (for technology comparison)
+
+**Prohibited:** Using only media summaries or aggregator sites to describe competitors. "According to a 36Kr article" is insufficient for competitor product specifications.
 
 ## Section 7: Financials — Forensic Detail
 
