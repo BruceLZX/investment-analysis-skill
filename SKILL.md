@@ -149,7 +149,28 @@ Use `templates/report_template.html` and replace:
 - `{{SECTION_1}}` through `{{SECTION_14}}`
 - `{{YEAR}}`
 
-Use `.verdict-strip`, `.briefing-grid`, `.brief-card`, `.evidence-card`, `.info-card`, `.warning`, `.danger`, `.source-tag`, `.source-confidence`, `.table-wrap`, `.data-table`, `.scenario-table`, `.sensitivity-table`, `.one-question`, `.takeaway-strip`, `.kpi-dashboard`, `.analog-grid`, `.efficiency-strip`, `.risk-matrix`, and `.timeline` when they improve scanability. The executive briefing must start with `.verdict-strip` and then compact decision cards. Do not turn every section into the same set of evidence/mechanism/risk cards or repeated KPI dashboards; prefer narrative paragraphs, content-specific micro-headings, compact tables, KPI strips, and selective callouts where they make the investment logic easier to read. Avoid long unbroken paragraphs and avoid decorative panels that do not carry evidence or a decision. Add one consolidated source appendix with links instead of repeated per-section source blocks.
+**Mandatory visual components — these classes MUST appear at least once in every report:**
+
+| Component | CSS Class | Required Location | Purpose |
+|-----------|----------|-------------------|---------|
+| Verdict strip | `.verdict-strip` | Top of `{{EXECUTIVE_SUMMARY}}` | Score, rating, action |
+| Briefing grid | `.briefing-grid` + `.brief-card` | Executive summary | 3 key judgment cards |
+| KPI dashboard | `.kpi-dashboard` + `.kpi-card` + `.kpi-good`/`.kpi-warn` | S1 Company Overview | 4-8 key metrics at a glance |
+| Efficiency strip | `.efficiency-strip` + `.eff-card` | Executive summary | Revenue, profit, valuation, margins |
+| One question | `.one-question` | Executive summary | The single most important diligence question |
+| Three takeaways | `.takeaway-strip` + `.takeaway-item` | End of S14 & Executive summary | 3 numbered takeaways |
+| Scenario table | `.scenario-table` with `.bull`/`.base`/`.bear` | S11 Investment Thesis | Probability-weighted bull/base/bear |
+| Sensitivity table | `.sensitivity-table` with `.high-impact` | S14 Scoring | Key assumptions ranked by EV impact |
+| Risk matrix | `.risk-matrix` with `.level-critical`/`.level-high` | S10 Risk | Color-coded probability × impact |
+| Timeline | `.timeline` + `.timeline-item` | S1 Company Overview | Dated company milestones (8-15 events) |
+| Source tags | `.source-tag` + `.source-confidence` (`.conf-high`/`conf-medium`/`conf-low`) | Throughout report | Every major claim gets a source+confidence tag |
+| Data tables | `.table-wrap` > `.data-table` | Throughout report | Financials, competitors, products, patents |
+| Info cards | `.info-card.highlight` / `.info-card.warning` / `.info-card.danger` | Throughout report | Key insights, risks, diligence gaps |
+| Evidence cards | `.evidence-card` | S2-S6 | Key evidence packets for major claims |
+| Quad grid | `.quad-grid` + `.quad-strength`/`.quad-weakness`/etc | S5 or S10 | SWOT-style analysis |
+| Analog grid | `.analog-grid` + `.analog-card.best`/`.cautionary` | S11 | Historical analogs |
+
+**A report without these components is incomplete.** Plain text paragraphs alone do not constitute a professional investment report. Use the components to make data scannable — a 200KB report should have a KPI strip at the top, a verdict badge, scenario tables with color coding, and risk matrices. After using each component once, additional narrative paragraphs, comparison tables, and content-specific subheadings carry the detailed analysis.
 
 ## Final QA
 
