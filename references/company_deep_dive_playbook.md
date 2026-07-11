@@ -187,42 +187,96 @@ For primary-market deals, flag what a reference check should verify:
 
 ## Section 3: Technology & IP — Patent-Level Detail
 
-### 3.1 Core Technology Inventory
+### 3.1 Core Technology Inventory — Academic-Level Deep Dive
 
-For each core technology area:
+**This is the most important section of the report.** Professional investment teams spend >40% of their research time on technology depth. The technology section must read like a well-researched survey paper, not a marketing brochure.
+
+#### 3.1.1 Technology Mechanism — How It Actually Works
+
+For EACH core technology, explain the mechanism in accessible but technically precise language. The reader should understand the underlying physics/biology/chemistry, not just what the product does.
+
+**Mandatory structure for each technology:**
 
 ```
 ### Technology: [Name]
 
-**Technical Description:**
-[2-5 sentences explaining in accessible but precise terms what the technology does,
-how it works, and why it is difficult to replicate.]
+**1. Mechanism of Action (MOA) — The Physics/Biology**
+[Explain in 5-10 sentences the underlying scientific principle. Use the actual physics/biology terms.
+e.g., NOT "ultrasound stimulates the brain" BUT "经颅聚焦超声(tFUS)通过相控阵换能器发射多束超声波，
+在颅内特定位置形成干涉焦点，产生机械力效应(非热效应)调控神经元膜电位。焦点尺寸~2-3mm³，
+空间分辨率达亚毫米级别，可穿透完整颅骨，无需开颅手术。"]
 
-**Problem Solved:**
-- Before this technology: [what was the pain point, cost, or impossibility]
-- After this technology: [what is now possible, cheaper, or faster]
-- Quantified improvement: [X% cost reduction, Yx speed improvement, Z% accuracy gain]
+**2. Key Performance Metrics**
+| Metric | Value | Measurement Method | Source |
+|--------|-------|-------------------|--------|
+| Spatial resolution | 亚毫米级(~0.5mm) | [How measured] | [Paper/Source] |
+| Temporal resolution | 0.5-1.5s延迟 | [How measured] | [Paper/Source] |
+| Brain coverage | 25%全脑体积 | [How measured] | [Paper/Source] |
+| Penetration depth | 经颅(颅骨完整) | [How measured] | [Paper/Source] |
+| Energy efficiency | [X W/cm²] | [How measured] | [Paper/Source] |
 
-**Technology Readiness Level (TRL):**
-- Current TRL: [1-9] — [explanation]
-- Evidence for TRL: [published results, third-party validation, customer deployment]
-- Next TRL milestone: [what, when, probability]
+**3. Academic & Clinical Evidence**
+- Key papers: [Author(s), Title, Journal, Year, DOI if available]
+- Total relevant publications in this field: [N] papers on PubMed
+- Key finding 1: [What the seminal paper proved]
+- Key finding 2: [What the most recent breakthrough is]
+- Clinical evidence level: [Animal studies / First-in-human / RCT Phase I/II/III]
 
-**Key Technical Bottleneck:**
-- The single hardest unsolved problem: [describe]
-- What must be true for this to work at scale: [describe]
-- Who else is trying to solve it: [competitors/research groups]
+**4. Competitive Technical Approaches (Same Mechanism Level)**
+For EACH major competing technical approach, provide the SAME level of mechanism detail:
 
-**Build vs. Buy Assessment:**
-- Internally developed: [components]
-- Licensed/acquired: [components, from whom, terms if known]
-- Third-party dependency: [critical APIs, cloud services, hardware suppliers]
-- Supply chain concentration: [single-source components, fab dependency, geopolitical risk]
+| Technical Dimension | Our Technology | Neuralink (electrode) | Synchron (stentrode) | Blackrock (Utah array) |
+|---------------------|---------------|----------------------|---------------------|------------------------|
+| Physical principle | [e.g., 超声波机械效应] | [e.g., 微电极记录电场] | [e.g., 血管内电极] | [e.g., 硬膜外电极阵列] |
+| Invasiveness | 非侵入(经颅) | 侵入(开颅植入) | 半侵入(血管介入) | 侵入(开颅植入) |
+| Channel count | [N] (等效) | 1024 | 16-128 | 96-256 |
+| Brain coverage | 25%全脑 | 1.3‰皮层 | 局部血管周围 | 1-2mm²皮层 |
+| Spatial resolution | 亚毫米 | 单神经元(50μm) | 毫米级 | 微米级(单神经元) |
+| Signal type | 血流间接(代谢) | 电场直接(电生理) | 电场直接(电生理) | 电场直接(电生理) |
+| Surgical requirement | 无 | 开颅手术 | 血管介入手术 | 开颅手术 |
+| FDA/NMPA status | [Status] | FDA HDE 2024 | FDA IDE 2023 | FDA IDE 2017 |
 
-**Technical Debt & Known Limitations:**
-- [Current limitations]
-- [Planned fixes and timeline]
+**5. Technology Evolution & Roadmap**
+- Generation 1: [Current capability, year achieved]
+- Generation 2: [Next milestone, target year]
+- Generation 3: [Long-term vision, target year]
+- Key bottleneck to overcome: [The single hardest unsolved problem]
+- Who else is trying to solve it: [Research groups, competitors, open-source projects]
+
+**6. Key Debates in the Field**
+- Debate 1: [e.g., 侵入式 vs 非侵入式 — 哪个路线最终胜出？]
+  - Pro-invasive argument: [with evidence]
+  - Pro-noninvasive argument: [with evidence]
+  - Our assessment: [which is more likely and why]
+- Debate 2: [Another major controversy in the field]
+
+**7. Academic Literature Search Protocol**
+For technology companies, the analyst MUST:
+- Search PubMed/Google Scholar for: "[technology name] mechanism", "[technology name] clinical", "[technology name] review"
+- Search arXiv for: "[technology name]" (for AI/engineering)
+- Open and read at least 3-5 key papers' abstracts; 1-2 full papers for the most important ones
+- Cite at least 2 specific papers with author, title, journal, year
+- Compare company's claimed metrics against published literature benchmarks
 ```
+
+#### 3.1.2 Technology Moat Assessment
+
+Go beyond "strong IP" and analyze WHY the technology is hard to replicate:
+
+```
+**Replication Difficulty Assessment:**
+
+| Barrier | Difficulty (1-10) | Why | Time to Replicate (Est.) |
+|---------|------------------|-----|-------------------------|
+| Scientific/Physics barrier | [X] | [Explanation — what law of physics or biology makes this hard] | — |
+| Engineering barrier | [X] | [Explanation — what manufacturing/integration challenge exists] | [X] years |
+| Data barrier | [X] | [Explanation — what proprietary data is needed] | [X] years |
+| Regulatory barrier | [X] | [Explanation — what certification/approval creates moat] | [X] years |
+| Ecosystem barrier | [X] | [Explanation — what partner/customer lock-in exists] | [X] years |
+| **Composite Moat Score** | **[X]/10** | | **Minimum [X] years of lead time** |
+```
+
+**The replication test:** "If a well-funded team of 50 world-class engineers and scientists were given unlimited resources and all of this company's published patents, how long would it take them to build a competitive product?" This is the most honest measure of technology moat.
 
 ### 3.2 Patent Portfolio
 

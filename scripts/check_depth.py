@@ -299,11 +299,11 @@ def print_failures(failures: list[str], limit: int = 80) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Check whether an investment-analysis report has enough section-level depth.")
     parser.add_argument("html_path", help="Generated HTML report path.")
-    parser.add_argument("--min-chars", type=int, default=850, help="Minimum plain-text characters per section.")
-    parser.add_argument("--min-numbers", type=int, default=2, help="Minimum numeric facts/proxies per section.")
-    parser.add_argument("--min-source-mentions", type=int, default=3, help="Minimum source-like mentions per section.")
-    parser.add_argument("--min-source-ids", type=int, default=2, help="Minimum distinct source IDs per section.")
-    parser.add_argument("--min-paragraphs", type=int, default=3, help="Minimum analytical paragraphs per section.")
+    parser.add_argument("--min-chars", type=int, default=2500, help="Minimum plain-text characters per section. 2500 chars ≈ 5-7 substantial paragraphs.")
+    parser.add_argument("--min-numbers", type=int, default=8, help="Minimum numeric facts/proxies per section. Every claim should have a number.")
+    parser.add_argument("--min-source-mentions", type=int, default=6, help="Minimum source-like mentions per section.")
+    parser.add_argument("--min-source-ids", type=int, default=4, help="Minimum distinct source IDs per section.")
+    parser.add_argument("--min-paragraphs", type=int, default=6, help="Minimum analytical paragraphs per section.")
     args = parser.parse_args()
 
     html_path = Path(args.html_path).expanduser().resolve()

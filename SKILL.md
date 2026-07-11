@@ -40,7 +40,17 @@ Default output language: match the user's language. For Chinese requests, write 
    ```
 
 17. Draft the HTML report using the current `templates/report_template.html` only. The generated HTML must retain `data-template-version="codex-compact-toc-v3"` and must not contain old overlay TOC ids such as `openToc`, `tocBackdrop`, or `closeToc`. The report may reorder or merge the 14 coverage areas when the company requires a different narrative, but it must still cover all material areas.
-18. Run the **Investor Reviewer** using `references/investor_reviewer_lens.md`. This is a simulated investment committee partner who reads the report with fresh eyes and challenges it on completeness, detail sharpness, and claim verification. The reviewer produces `_work/investor_review.md` with Critical/Important/Minor items across 5 rounds: (1) Completeness Sweep — is every section at the forensic depth standard? (2) Claim Verification — is every claim sourced and current? (3) Missing Competitors — who did the analyst forget? (4) Product/Market Fit — the uncomfortable commercial questions. (5) Number Stress-Test — key assumptions at -30%. **All Critical items must be resolved before proceeding.** The analyst must either add the missing information or explicitly state why it cannot be obtained and how that impacts confidence.
+
+**Minimum content depth (enforced by check_depth.py):** 2,500+ plain-text characters per section (≈5-7 substantial analytical paragraphs), 8+ numeric facts/proxies, 6+ source mentions, 4+ distinct source IDs, 6+ analytical paragraphs. A section with 3 short paragraphs and 2 numbers FAILS the depth gate. Depth is not about length — it's about evidence density.
+
+**Per-section deep research mandate:** Before drafting a section, the analyst must do at least 3 targeted searches SPECIFIC to that section's topic (not generic company name search). Examples:
+- S3 Technology: "[technology name] mechanism", "[technology name] clinical paper", "[competitor technology] vs [our technology] comparison", site:pubmed.ncbi.nlm.nih.gov "[technology name]"
+- S4 Market: "[industry] market size 2025 2026 report", "[industry] CAGR forecast", site:grandviewresearch.com OR site:marketsandmarkets.com "[industry]"
+- S5 Competition: "[competitor name] product specifications", "[competitor name] funding valuation", "[competitor name] vs [company name] comparison"
+- S2 Team: "[founder name] LinkedIn", "[founder name] publication", "[founder name] interview", site:patents.google.com "[founder name]"
+- All sections: search company official website, government databases (NMPA/FDA/SAMR), academic databases (PubMed/arXiv/Google Scholar) where relevant.
+
+18. Run the **Investor Reviewer** using `references/investor_reviewer_lens.md`. This is a simulated investment committee partner who reads the report with fresh eyes and challenges it on completeness, detail sharpness, and claim verification. The reviewer produces `_work/investor_review.md` with Critical/Important/Minor items across 5 rounds: (1) Completeness Sweep — is every section at the forensic depth standard? Does each section have sufficient depth or is it a few short paragraphs? (2) Claim Verification — is every claim sourced and current? (3) Missing Competitors — who did the analyst forget? (4) Product/Market Fit — the uncomfortable commercial questions. (5) Number Stress-Test — key assumptions at -30%. **All Critical items must be resolved before proceeding.** The analyst must either add the missing information (by doing ADDITIONAL targeted searches, not by rewording existing content) or explicitly state why it cannot be obtained and how that impacts confidence.
 19. Generate PDF:
 
    ```bash
