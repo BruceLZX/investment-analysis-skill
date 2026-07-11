@@ -509,3 +509,80 @@ When filling the above sections, prioritize:
 8. **Media/interviews** — lowest confidence
 
 **For each data point**, cite the specific source, date, and confidence level.
+
+---
+
+## Section-Specific Granularity Benchmarks (All Sections)
+
+These benchmarks are derived from professional investment team analysis reports. Every section must hit these minimum specificity markers. The QA gate (`check_depth.py`) enforces them.
+
+### S1 Company Overview
+- ✅ "2025年9月5日成立" not "2025年成立"
+- ✅ "注册资本1,275万人民币，实缴资本未公开" not "注册资本未公开"
+- ✅ "彭雷持股43.1373%，陈天桥持股19.6078%" not "创始人持股约40%"
+- ✅ "双总部：成都天府国际生物城(全球总部，16000㎡)+上海脑智天地"
+- ✅ "2026年6月26日超级工厂一期竣工投运，投资人代表：华映资本季薇、清松资本张松、戈壁创投唐啟波、傅利叶顾捷出席剪彩"
+- ✅ Entity map: parent/HK WFOE/VIE OpCo with EXACT ownership chain
+
+### S2 Team
+- ✅ Full education trace: "本科中科大机械电子工程；硕士香港理工大学软件工程；博士复旦大学类脑智能(在读)"
+- ✅ Career chronology with exact titles and company names: "SaaS公司客如云创始人及CEO→阿里巴巴本地生活资深副总裁→第六次创业"
+- ✅ Key hires: "Bashar W. Badran, Ph.D. — 南卡罗来纳医科大学神经科学博士，创立MUSC Neuro-X实验室，69篇同行评审论文，曾任职Neuralink临床合作负责人"
+- ✅ External validation: "四川省千人计划创业领军人才"，"2023年追加10亿元投入AI+脑科学"
+
+### S3 Technology & IP
+- ✅ Technical mechanism deep-dive: "超声血流成像延迟时间0.5s~1.5s(近乎实时)"，"空间分辨率达亚毫米级别"
+- ✅ Direct technical comparison: "Neuralink 1024通道电极覆盖大脑皮层1.3‰ vs 超声波路线覆盖25%全脑体积"
+- ✅ Patent table with EXACT numbers: "CN119345607A" not "多项专利"
+- ✅ Technology readiness: "相控阵(Phased Array)全称相位控制阵列...电子扫描技术区别于传统单探头"
+- ✅ Mechanism explained in accessible but precise terms, with quantified performance metrics
+
+### S4 Market
+- ✅ TAM broken down by indication: "SCI 150亿(374万存量+10万/年新增)；OAB 200亿(2000万目标人群×¥1000/人)；VTE 150亿(5000万手术患者×¥300/人)；OSA 100亿(2030预测CAGR 19.7%)"
+- ✅ Global market with CAGR and source: "全球神经调控市场$68亿(2025)→$139亿(2033)，CAGR 10.4% — Grand View Research"
+- ✅ Policy timeline with specific documents: "2026年政府工作报告首次写入'脑机接口'，七部委《关于推动脑机接口产业创新发展的实施意见》，十五五规划六大重点产业"
+- ✅ Geographic bifurcation: China market vs global, with separate data
+
+### S5 Competition
+- ✅ Named competitors with technical comparison: "美敦力(侵入式DBS/SCS全球龙头，$10万+/台) vs 复远数科(非侵入式，¥2-3万/台，价格1/50)"
+- ✅ Not "竞争激烈" but specific: "巨头侵入式覆盖不足1%，我们瞄准99%"
+- ✅ Competitive moat quantified: "50+知识产权+5PCT+国家一级查新'国内首创国际领先'认证"
+- ✅ Direct product-by-product comparison table
+
+### S6 Business Model
+- ✅ Dual-engine strategy clearly articulated: "现金流产品线(已获证→自我造血)+核心创新产品线(国内首创→估值锚点)"
+- ✅ Pricing: "设备¥2-3万+耗材¥300/套，单次治疗成本仅¥10元，侵入式价格的1/50"
+- ✅ Unit economics: "100万+收入即时，2028年盈亏平衡目标"
+
+### S7 Financials
+- ✅ Actual revenue: "100万+高新技术服务及产品收入已实现" not "已有收入"
+- ✅ Financing history with EXACT details: "天使轮1.5亿(2026-03-12，国生资本+道彤投资联合领投)→天使+轮4.2亿(2026-07-03，华映资本领投，红杉中国+C资本+蓝思科技等跟投，老股东超额加码)"
+- ✅ ALL investors named, not "多家机构"
+- ✅ Fund usage specified per round
+
+### S8 Funding
+- ✅ Complete financing table: 时间 | 轮次 | 总融资额 | 投资方(ALL named) | 资金用途
+- ✅ Cumulative: "共融资2轮，累计完成融资5.7亿元人民币"
+- ✅ Investor quality assessment: named VCs with track record
+
+### S9 Strategy & Partnerships
+- ✅ Named partners with collaboration scope: "傅利叶 — 下肢外骨骼+上肢康复+GR-3人形机器人，'意图-执行-感知反馈'闭环训练"
+- ✅ "2026年1月28日正式签署战略合作协议" — exact date
+- ✅ Clinical partners: "华西、协和、华山等三甲医院" — named institutions
+- ✅ Roadmap with dates: "2026 Q3启动多中心临床"
+
+### S10 Risk
+- ✅ Specific risks tied to milestones: not "临床风险" but "CSNS多中心临床若显示疗效不优于假刺激对照→估值锚崩溃(-50% EV)"
+- ✅ Probability attached: "30%概率，致命等级"
+- ✅ Early warning signal: "2026 Q3-Q4销售数据持续低于预期"
+- ✅ Mitigation plan: "现金流产品维持公司运转；可聚焦OAB/OSA等临床难度较低的管线"
+
+### S11 Investment Thesis
+- ✅ Non-consensus insight with data: "市场认为非侵入式=低壁垒，但国家一级查新认证+50+IP+5PCT+2张证组合在天使轮极为稀缺"
+- ✅ Bull/Base/Bear with specific revenue/probability
+- ✅ Exit path with named acquirers: "美敦力/雅培/品驰/迈瑞等战略并购" not "IPO或并购"
+
+### S14 Scoring
+- ✅ Weighted score table with specific rationale per dimension
+- ✅ Key assumption sensitivity: ranked, with disproof trigger and EV impact %
+- ✅ Position sizing: Kelly framework with portfolio correlation and max loss

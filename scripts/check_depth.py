@@ -53,23 +53,70 @@ VAGUE_PATTERNS = [
 
 # Minimum granularity checks per section
 GRANULARITY_CHECKS = {
-    "company_overview": [
+    "1": [
         (r'\d{4}\s*年\s*\d{1,2}\s*月\s*\d{1,2}\s*日', "Specific founding date (YYYY年MM月DD日)"),
         (r'(?:注册资本|registered capital).{0,20}\d+', "Registered capital with amount"),
-        (r'\d+\.?\d*\s*%', "At least one equity percentage"),
+        (r'\d+\.?\d*\s*%', "At least one exact equity percentage"),
+        (r'\d+', "At least one numeric fact (facility size, employee count, etc.)"),
     ],
-    "team": [
-        (r'(?:本科|学士|B\.S\.|B\.A\.|Bachelor).{0,50}(?:大学|学院|University|College)', "At least one undergrad institution"),
-        (r'(?:硕士|M\.S\.|M\.A\.|Master|Ph\.D|博士|Doctor).{0,50}(?:大学|学院|University|College)', "At least one graduate degree institution"),
-        (r'(?:曾任|曾任职于|此前在|之前于|worked at|previously at)', "At least one prior employer"),
+    "2": [
+        (r'(?:本科|学士|B\.S\.|B\.A\.|Bachelor).{0,80}(?:大学|学院|University|College)', "At least one undergrad institution"),
+        (r'(?:硕士|M\.S\.|M\.A\.|Master|Ph\.D|博士|Doctor).{0,80}(?:大学|学院|University|College)', "At least one graduate degree institution"),
+        (r'(?:曾任|曾任职于|此前在|之前于|worked at|previously at|创立|创办)', "At least one prior role or employer named"),
+        (r'\d+\s*(?:篇|项|个|家|次)', "At least one quantified achievement (papers, patents, companies)"),
     ],
-    "technology": [
+    "3": [
         (r'(?:专利号|Patent\s*(?:No|Number|#)|CN\d+|US\d+|WO\d+|EP\d+)', "At least one specific patent number"),
         (r'\b\d{4}-\d{2}-\d{2}\b', "At least one specific date (patent filing/grant)"),
+        (r'(?:覆盖|分辨率|延迟|精度|速度|功率|频率|带宽).{0,30}\d+\.?\d*', "At least one quantified technical specification"),
+        (r'(?:vs\.?|versus|相比于|相较于|优于|对比).{0,80}(?:Neuralink|美敦力|雅培|竞争对手)', "Head-to-head technical comparison with named competitor"),
     ],
-    "competition": [
+    "4": [
+        (r'(?:TAM|SAM|SOM|市场规模|market size).{0,50}\d+\.?\d*\s*[亿万亿MB]', "Specific market size number with unit"),
+        (r'CAGR.{0,30}\d+\.?\d*\s*%', "CAGR with specific percentage"),
+        (r'(?:政策|policy|regulation|guideline).{0,100}(?:\d{4})', "Specific policy/regulation with year reference"),
+        (r'(?:中国|美国|欧洲|日本|全球).{0,50}(?:市场|market)', "Geographic market bifurcation (at least 2 regions)"),
+    ],
+    "5": [
         (r'(?:对比|vs\.?|versus|相较于|优于|差于)', "Head-to-head comparison language"),
         (r'(?:市场份额|market share|市占率).{0,30}\d+\.?\d*\s*%', "Specific market share number"),
+        (r'(?:竞争对手|competitor).{0,50}(?:美敦力|雅培|波科|品驰|景昱|Neuralink|Skydio|[A-Z][a-z]+)', "At least one named competitor with details"),
+    ],
+    "6": [
+        (r'(?:定价|价格|售价|ASP|price).{0,30}\d+\.?\d*', "Specific pricing or price point mentioned"),
+        (r'(?:毛利率|gross margin|净利率|net margin|unit economics).{0,30}\d+\.?\d*\s*%', "Margin or unit economics quantified"),
+        (r'(?:收入模型|revenue model|商业模式|business model).{0,100}(?:订阅|license|SaaS|per seat|per use|一次性|recurring)', "Revenue model specified"),
+    ],
+    "7": [
+        (r'(?:营收|收入|revenue|销售额).{0,30}\d+\.?\d*\s*[亿万亿MB]', "Revenue number with unit"),
+        (r'(?:利润|净利|毛利|EBIT|FCF|现金流).{0,30}\d+\.?\d*\s*[亿万亿MB%]', "Profit or cash flow metric quantified"),
+        (r'\b(?:20\d{2})\b', "Year reference for financial data"),
+    ],
+    "8": [
+        (r'(?:融资|funding|轮|round|估值|valuation).{0,50}\d+\.?\d*\s*[亿万亿MB]', "Funding amount or valuation with number"),
+        (r'(?:投资方|investor|领投|跟投).{0,80}(?:资本|创投|资本|红杉|IDG|经纬|高瓴|Sequoia)', "At least one named investor"),
+        (r'(?:天使|A轮|B轮|C轮|Pre-IPO|Series)', "Funding round label"),
+    ],
+    "9": [
+        (r'(?:合作|partner|战略|strategy|roadmap|路线).{0,80}(?:签署|达成|建立|启动)', "Specific partnership or strategic initiative"),
+        (r'\b(?:20\d{2}|Q[1-4])\b', "Timeline reference in strategy section"),
+    ],
+    "10": [
+        (r'(?:风险|risk).{0,30}(?:概率|probability|可能性).{0,20}\d+\.?\d*\s*%', "Risk with probability percentage"),
+        (r'(?:致命|致命级|critical|高|high|中|medium|低|low)', "Risk severity level labeled"),
+        (r'(?:缓释|mitigation|应对|对冲)', "Risk mitigation mentioned"),
+    ],
+    "11": [
+        (r'(?:bull|bear|base|牛市|熊市|基准|情景|scenario)', "Scenario analysis present"),
+        (r'\d+\.?\d*\s*[x倍]', "Return multiple or return expectation quantified"),
+    ],
+    "12": [
+        (r'(?:IPO|并购|收购|退出|exit|acqui)', "Exit path specified"),
+        (r'(?:美敦力|雅培|波科|品驰|迈瑞|腾讯|阿里|字节|[A-Z][a-z]+\s*(?:Corp|Inc|Ltd|医药|科技|医疗))', "At least one named potential acquirer"),
+    ],
+    "14": [
+        (r'(?:评分|score|rating).{0,30}\d+\.?\d*\s*\/?\s*10', "Composite score present"),
+        (r'(?:假设|assumption|敏感性|sensitivity).{0,50}(?:EV|估值|valuation|影响)', "Key assumption sensitivity included"),
     ],
 }
 
@@ -374,24 +421,23 @@ def main() -> int:
 
 
 def check_granularity(visible_text: str, section_texts: dict[str, str]) -> list[str]:
-    """Check that key sections meet the granularity benchmark — specific numbers, names, dates."""
+    """Check that ALL sections meet the granularity benchmark — specific numbers, names, dates."""
     failures = []
-    section_map = {
-        "1": "company_overview",
-        "2": "team",
-        "3": "technology",
-        "5": "competition",
-    }
-    for sec_num, check_key in section_map.items():
-        if check_key not in GRANULARITY_CHECKS:
-            continue
+    for sec_num, checks in GRANULARITY_CHECKS.items():
         sec_text = section_texts.get(sec_num, "")
         if not sec_text:
-            failures.append(f"Section {sec_num} ({check_key}): missing — cannot verify granularity.")
+            failures.append(f"Section {sec_num}: missing — cannot verify granularity.")
             continue
-        for pattern, label in GRANULARITY_CHECKS[check_key]:
-            if not re.search(pattern, sec_text, re.I):
-                failures.append(f"Section {sec_num} ({check_key}): missing granularity marker — {label}")
+        passed = 0
+        total = len(checks)
+        for pattern, label in checks:
+            if re.search(pattern, sec_text, re.I):
+                passed += 1
+            else:
+                failures.append(f"Section {sec_num}: missing granularity marker — {label}")
+        # Section must pass at least 60% of granularity checks
+        if total > 0 and passed / total < 0.6:
+            failures.append(f"Section {sec_num}: granularity score {passed}/{total} (<60% minimum). Section needs more specific data.")
     return failures
 
 
