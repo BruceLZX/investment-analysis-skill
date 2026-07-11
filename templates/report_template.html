@@ -36,6 +36,8 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
             font-size: 15px;
             line-height: 1.72;
+            overflow-wrap: break-word;
+            word-break: break-word;
         }
 
         a { color: var(--accent); }
@@ -599,6 +601,8 @@
 
         p {
             margin: 0 0 13px;
+            text-align: justify;
+            text-justify: inter-character;
         }
 
         ul,
@@ -684,8 +688,9 @@
 
         table.data-table,
         .table-wrap table {
-            min-width: 720px;
+            min-width: 640px;
             font-size: 13px;
+            table-layout: auto;
         }
 
         th,
@@ -694,6 +699,14 @@
             border-bottom: 1px solid var(--line);
             text-align: left;
             vertical-align: top;
+            word-break: break-word;
+            min-width: 60px;
+        }
+
+        th:first-child,
+        td:first-child {
+            min-width: 40px;
+            white-space: nowrap;
         }
 
         th {
@@ -1167,13 +1180,17 @@
 
         @media print {
             html { scroll-behavior: auto; }
-            body { background: #fff; font-size: 12px; line-height: 1.5; }
+            body { background: #fff; font-size: 12px; line-height: 1.5; overflow-wrap: break-word; word-break: break-word; }
+            p { text-align: justify; text-justify: inter-character; }
             .report-shell { display: block; }
             .sidebar,
             .toc-backdrop,
             .topbar,
             .section-toggle,
             .skip-link { display: none !important; }
+            table { font-size: 10px; }
+            table.data-table, .table-wrap table { min-width: auto; width: 100%; }
+            th, td { padding: 6px 8px; min-width: 0; word-break: break-word; }
             .hero,
             main,
             footer {
