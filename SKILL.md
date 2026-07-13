@@ -7,7 +7,7 @@ description: "Harness-driven company and industry investment research for primar
 
 Produce a decision-grade investment report that can teach a reader enough about the company and industry to make a professional investment decision. Use the harness and QA loop; do not rely on a one-shot report draft.
 
-Default output language: match the user's language. For Chinese requests, write the report in Chinese while preserving official English names.
+Default output language: match the user's language automatically. For Chinese requests, write in Chinese preserving official English names. For English requests, write the full report in English — section headers, analysis text, labels, and the executive summary. The HTML template uses bilingual headers (e.g., "公司概览 Company Overview") and works for both languages. Source citations, tickers, and proper nouns stay in their original language.
 
 ## Required Workflow
 
