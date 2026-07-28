@@ -38,7 +38,7 @@
             font-size: 15px;
             line-height: 1.72;
             overflow-wrap: break-word;
-            word-break: break-word;
+            word-break: normal;
         }
 
         a { color: var(--accent); }
@@ -603,7 +603,7 @@
         p {
             margin: 0 0 13px;
             text-align: justify;
-            text-justify: inter-character;
+            text-justify: auto;
         }
 
         ul,
@@ -700,7 +700,7 @@
             border-bottom: 1px solid var(--line);
             text-align: left;
             vertical-align: top;
-            word-break: break-word;
+            word-break: normal;
             min-width: 60px;
         }
 
@@ -1015,40 +1015,66 @@
         /* Three Takeaways */
         .takeaway-strip {
             margin: 24px 0;
-            padding: 22px;
+            padding: 24px;
             background: #f0fdf4;
-            border: 2px solid #86efac;
+            border: 1px solid #bbf7d0;
             border-radius: var(--radius);
             counter-reset: takeaway;
         }
 
         .takeaway-strip h4 {
-            margin: 0 0 14px;
+            margin: 0 0 18px;
             color: #14532d;
+            font-size: 17px;
+            font-weight: 750;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .takeaway-strip h4::before {
+            content: "💡";
+            font-size: 18px;
         }
 
         .takeaway-item {
             counter-increment: takeaway;
-            display: grid;
-            grid-template-columns: 34px minmax(0, 1fr);
-            gap: 12px;
-            align-items: start;
-            margin-bottom: 12px;
-            font-weight: 650;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            margin-bottom: 14px;
+            padding: 14px 16px;
+            background: #ffffff;
+            border: 1px solid #dcfce7;
+            border-radius: var(--radius);
+            color: var(--ink);
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .takeaway-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .takeaway-item b {
             color: #14532d;
+            font-weight: 700;
         }
 
         .takeaway-item::before {
             content: counter(takeaway);
-            display: grid;
-            place-items: center;
-            width: 34px;
-            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             background: #22c55e;
             color: #fff;
-            font-weight: 850;
-            font-size: 16px;
+            font-weight: 800;
+            font-size: 14px;
         }
 
         /* Capital Efficiency Strip */
@@ -1232,8 +1258,8 @@
 
         @media print {
             html { scroll-behavior: auto; }
-            body { background: #fff; font-size: 12px; line-height: 1.5; overflow-wrap: break-word; word-break: break-word; }
-            p { text-align: justify; text-justify: inter-character; }
+            body { background: #fff; font-size: 12px; line-height: 1.5; overflow-wrap: break-word; word-break: normal; }
+            p { text-align: justify; text-justify: auto; }
             .report-shell { display: block; }
             .sidebar,
             .toc-backdrop,
@@ -1242,7 +1268,7 @@
             .skip-link { display: none !important; }
             table { font-size: 10px; }
             table.data-table, .table-wrap table { min-width: auto; width: 100%; }
-            th, td { padding: 6px 8px; min-width: 0; word-break: break-word; }
+            th, td { padding: 6px 8px; min-width: 0; overflow-wrap: break-word; }
             .hero,
             main,
             footer {
