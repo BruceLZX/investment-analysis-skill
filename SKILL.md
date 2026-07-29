@@ -9,9 +9,9 @@ Produce a decision-grade investment report that can teach a reader enough about 
 
 Default output language: match the user's language automatically. For Chinese requests, write in Chinese preserving official English names. For English requests, write the full report in English — section headers, analysis text, labels, and the executive summary. The HTML template uses bilingual headers (e.g., "公司概览 Company Overview") and works for both languages. Source citations, tickers, and proper nouns stay in their original language.
 
-## Required Workflow — 6-Stage Orchestrator
+## Required Workflow — Agent-Based Orchestrator
 
-This skill orchestrates 16 modular sub-skills. Each sub-skill produces one section of the report independently, solving the context-length problem. The orchestrator handles setup, dispatch, assembly, and QA.
+This skill spawns independent agents for each section. Every agent gets a **clean context window** and full tool access (WebSearch, WebFetch, Bash, Read, Write). This is the key to depth — each section gets dedicated research capacity without competing for context with other sections.
 
 ### Stage 0: Setup
 
@@ -19,80 +19,89 @@ This skill orchestrates 16 modular sub-skills. Each sub-skill produces one secti
 2. Read `references/analysis_core.md` for evidence standards.
 3. Read `references/decision_framework.md` for decision framework.
 4. Read `references/company_deep_dive_playbook.md` for forensic depth standard.
-5. Read conditional lenses as needed: `geo_market_context_lens.md`, `policy_geopolitics_lens.md`, `public_equity_financials_lens.md`, `regulatory_database_lens.md`.
+5. Read conditional lenses as needed (`geo_market_context_lens.md`, `policy_geopolitics_lens.md`, `public_equity_financials_lens.md`, `regulatory_database_lens.md`).
 6. Extract user-provided materials. Copy originals into `sources/`.
-7. Initialize the harness:
+7. Initialize:
 
    ```bash
    python scripts/run_analysis_harness.py preflight
    python scripts/run_analysis_harness.py init --output "[output]" --company "[name]" --sources [files...]
    ```
 
-8. Create `_work/sections/` directory. Write `_work/sections/context.json` skeleton with `report_metadata` populated.
-9. Write `_work/sections/meta.txt` with COMPANY_NAME, REPORT_DATE, DATA_AS_OF, INDUSTRY, HEADQUARTERS, STAGE, COMPOSITE_SCORE, YEAR.
+8. Create `_work/sections/`. Write `context.json` skeleton and `meta.txt`.
 
-### Stage 1: Parallel — Independent Sections (S1-S10, S12, S13)
+### Stage 1: Parallel Agents — Independent Sections (S1-S10, S12, S13)
 
-Dispatch these 12 sub-skills in 3 parallel batches (4 per batch). Each sub-skill:
-- Reads `_work/source_register.md`, `_work/evidence_matrix.md`, `_work/sections/context.json`
-- Does 3-6 targeted web searches specific to its section
-- Writes `_work/sections/SECTION_N.html`
-- Updates `_work/sections/context.json` → `sections.sN` with summary
+**CRITICAL**: Use the **Agent tool** (NOT the Skill tool). Launch ALL 12 agents in a SINGLE message with `run_in_background: true` so they execute concurrently with independent context windows.
 
-**Batch 1:** `ia-company-overview`, `ia-team`, `ia-technology`, `ia-market`
-**Batch 2:** `ia-competition`, `ia-business-model`, `ia-financials`, `ia-funding`
-**Batch 3:** `ia-strategy`, `ia-risk`, `ia-exit`, `ia-esg`
+Each agent uses `subagent_type: "general-purpose"` and receives a self-contained prompt with:
+- Role: produce ONE section of an investment report
+- The section's research requirements (from `references/section_deepening.md`)
+- Evidence standards (from `_shared/section_standards.md`)
+- Company context and source file paths
+- Output: Write `_work/sections/SECTION_N.html` + update `_work/sections/context.json`
 
-Invoke via: `Skill: ia-{name} args="--output-dir $OUTPUT --company $COMPANY"`
+**Agent prompts are constructed inline** by the orchestrator. Each prompt MUST include:
 
-### Stage 2: Sequential — Dependent Sections (S11, S14)
+1. **Role**: "You are producing Section N (Title) of a professional investment analysis report for [COMPANY]."
+2. **Research Mandate** (section-specific, from section_deepening.md):
+   - S1: Map legal entities, build 8-15 event timeline, identify company type, explain customer/product/buyer
+   - S2: Verify each founder's education/career/patents/exits against public records, assess founder-market fit, identify team gaps
+   - S3: Describe product architecture, identify technical bottleneck, list patents with dates/jurisdictions, assess defensibility and dependencies, evaluate TRL
+   - S4: Use two sizing approaches (top-down + bottom-up), bifurcate TAM/SAM/SOM by region, verify all BP market claims against independent sources, identify "why now" catalyst
+   - S5: Map ALL material competitors (direct, substitute, international, future entrant), compare products/funding/team/share, include "do nothing" as competitor, assess moat durability
+   - S6: Break down unit economics per product line, assess pricing power vs free alternatives, analyze customer concentration, revenue quality (recurring vs one-time), GTM strategy
+   - S7: For public: income statement/balance sheet/cash flow/notes analysis. For early-stage: burn rate + runway from team size/location/funding. Mark estimated vs audited.
+   - S8: Map every funding round (date/amount/investors/valuation/terms), build cap table (share classes/voting/liquidation pref), benchmark valuation against comps
+   - S9: Map strategic roadmap (short/medium/long term), assess resource-strategy coherence, identify aspirational vs evidenced claims
+   - S10: Aggregate ALL risks from S1-S9, score probability×impact, identify concentration risks (single tech/customer/geo), separate fatal vs manageable
+   - S12: Identify likely acquirers with strategic rationale, assess IPO feasibility (venue/requirements/timeline), analyze cross-border regulatory constraints
+   - S13: Score E/S/G dimensions with evidence, map to SDGs, assess materiality to investment decision
+3. **Evidence Gate** (from `_shared/section_standards.md`): 3-6 targeted WebSearch calls, 2+ independent sources, 1+ primary source, 2+ numeric facts, 1+ competitor comparison, 1+ counter-evidence, investor implication
+4. **Deep Research Trigger**: Do NOT just summarize the BP. Search for:
+   - Academic papers (Google Scholar, arXiv, PubMed where relevant)
+   - Government/regulatory databases (gsxt.gov.cn, NMPA, CDE, CAC, MIIT, etc. per regulatory_database_lens.md)
+   - Industry reports (Counterpoint, IDC, GSMA, Grand View Research, MarketsandMarkets)
+   - Competitor official websites, Crunchbase, Pitchbook
+   - Patent databases (Google Patents, CNIPA)
+   - News archives and founder interviews
+5. **Output Instructions**:
+   - Write `_work/sections/SECTION_N.html` — valid HTML fragment with required CSS classes (`.kpi-dashboard`, `.data-table`, `.info-card`, etc.)
+   - Use `<a href="#src-SX" class="source-tag">[SX]</a>` for inline citations
+   - Update `_work/sections/context.json` — add `sections.sN` with status/completed, confidence, 2-3 sentence summary
+   - Minimum depth: 2500+ chars, 8+ numeric facts, 6+ source mentions, 4+ source IDs, 6+ paragraphs
 
-These sections need summaries from S2-S10. After all 12 independent sections complete:
-1. Read `_work/sections/context.json` — collect all `sections.sN.summary` fields
-2. Invoke `ia-thesis` — synthesizes S2-S10 into investment thesis, writes `SECTION_11.html`
-3. Invoke `ia-scoring` — scores all dimensions based on S1-S13 findings, writes `SECTION_14.html`
+**Parallel dispatch**: Send all 12 Agent() calls in ONE message. Each with `run_in_background: true`. The orchestrator waits for all to complete before Stage 2.
 
-### Stage 3: Final Sections
+### Stage 2: Sequential Agents — Dependent Sections (S11, S14)
 
-After all 14 sections are complete:
-1. Invoke `ia-executive-summary` — synthesizes all 14 section summaries into the 5-minute briefing
-2. Invoke `ia-source-appendix` — compiles `_work/source_register.md` into the formatted source appendix
+After ALL 12 Stage 1 agents complete:
+1. Read `_work/sections/context.json` to collect all section summaries
+2. Launch `ia-thesis` agent: synthesizes S2-S10 into investment thesis with scenario analysis, analogs, position sizing. Writes `SECTION_11.html`.
+3. After S11 completes: Launch `ia-scoring` agent: weighted 10-dimension scoring based on S1-S13 findings. Writes `SECTION_14.html`.
+
+### Stage 3: Final Agents
+
+After S1-S14 complete:
+1. Launch Executive Summary agent: synthesizes all 14 summaries into 5-minute briefing. Writes `EXECUTIVE_SUMMARY.html`.
+2. Launch Source Appendix agent: compiles source register into formatted HTML. Writes `SOURCE_APPENDIX.html`.
 
 ### Stage 4: Assembly
-
-Build the final HTML report from the template and all section outputs:
 
 ```bash
 python scripts/build_report.py templates/report_template.html "[output]/[name]_投资分析报告.html" _work/sections/
 ```
 
-Verify zero unreplaced `{{...}}` placeholders.
-
-### Stage 5: QA Loop, PDF, Clean, Deliver
+### Stage 5: QA + PDF + Deliver
 
 ```bash
 python scripts/run_analysis_harness.py loop --output "[output]" --html "[html]" --pdf "[pdf]"
-```
-
-If loop fails: read `_work/rewrite_plan.md`, identify weak sections, re-invoke the relevant sub-skill with additional context, then re-run Stage 4 and loop.
-
-```bash
 python scripts/generate_pdf.py "[html]" "[pdf]"
 python scripts/run_analysis_harness.py clean --output "[output]"
 python scripts/run_analysis_harness.py final-check --output "[output]" --html "[html]" --pdf "[pdf]"
 ```
 
-### Per-Section Depth Mandate (enforced by each sub-skill and check_depth.py)
-
-2,500+ plain-text characters per section, 8+ numeric facts, 6+ source mentions, 4+ distinct source IDs, 6+ analytical paragraphs. Each sub-skill does 3-6 targeted searches specific to its topic. A section with 3 short paragraphs and 2 numbers fails the depth gate.
-
-### When a Section Fails QA
-
-If `loop` identifies a weak section:
-1. Read the specific failure from `_work/rewrite_plan.md`
-2. Re-invoke the relevant sub-skill: `Skill: ia-{name} args="--output-dir $OUTPUT --company $COMPANY --fix 'failure description'"`
-3. The sub-skill does additional targeted research and rewrites its section HTML
-4. Re-run Stage 4 (assembly) and Stage 5 (QA)
+If loop fails: read `_work/rewrite_plan.md`, re-launch the weak section's agent with specific fix instructions, re-run Stage 4-5.
 
 ## Report Requirements
 
