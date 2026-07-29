@@ -1,4 +1,8 @@
 <p align="center">
+  <a href="README_CN.md">🇨🇳 中文版本</a>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/version-v2.0-0f766e?style=for-the-badge" alt="Version">
   <img src="https://img.shields.io/badge/platform-Claude%20Code%20%7C%20Codex%20%7C%20Cursor-202124?style=for-the-badge" alt="Platform">
   <img src="https://img.shields.io/badge/license-MIT-15803d?style=for-the-badge" alt="License">

@@ -9,83 +9,90 @@ Produce a decision-grade investment report that can teach a reader enough about 
 
 Default output language: match the user's language automatically. For Chinese requests, write in Chinese preserving official English names. For English requests, write the full report in English — section headers, analysis text, labels, and the executive summary. The HTML template uses bilingual headers (e.g., "公司概览 Company Overview") and works for both languages. Source citations, tickers, and proper nouns stay in their original language.
 
-## Required Workflow
+## Required Workflow — 6-Stage Orchestrator
 
-1. Read `references/report_strategy_playbook.md` to choose the report spine. Use the closest investment context rather than forcing every company into the same outline.
-2. Read `references/analysis_core.md` for the evidence gate, section writing contract, thesis workflow, and red-team standard.
-3. Read `references/decision_framework.md` before drafting the executive briefing, investment thesis, recommendation, scoring, or final decision. Use `references/section_deepening.md` only when planning section-level research or rewriting weak sections; load only the relevant headings when possible.
-4. Read `references/geo_market_context_lens.md` when geography, jurisdiction, customer markets, suppliers, channels, localization, foreign comparables, capital markets, or exit paths can affect TAM, GTM, competition, pricing, risk, valuation, or strategy.
-5. Read `references/policy_geopolitics_lens.md` when policy, national strategy, international exposure, regulation, government procurement, export controls, sanctions, data security, or cross-border supply chain can affect the thesis. Choose the relevant jurisdictions and investor perspective first; do not apply one country's policy lens to all companies.
-6. Read `references/public_equity_financials_lens.md` when the company is listed, has a ticker/security code, is a liquid secondary-market target, or the user asks whether a stock is worth buying. This lens is mandatory for public equities and must be integrated into valuation, recommendation, risk, and position sizing.
-7. Read `references/regulatory_database_lens.md` for every company. This lens maps each industry to its authoritative government registries (NMPA/CDE for biotech, SASAC for SOEs, MIIT/CNIPA for semiconductors, CAC for AI, CAAC for aerospace, PBOC/NFRA for fintech, and gsxt.gov.cn + wenshu.court.gov.cn as universal baselines). Search public regulatory databases for licenses, approvals, clinical trial status, patent legal status, procurement awards, and compliance records. When a database requires login or is restricted, do NOT silently skip it — emit a User Data Request telling the user exactly what to fetch, from which database, why it matters to the investment decision, and how to obtain it.
-8. Read `references/company_deep_dive_playbook.md` for **every** company. This is the mandatory forensic depth standard. Every report must include: (a) legal entity map with exact ownership percentages, (b) complete timeline with specific dates (not "recently"), (c) equity cap table with share classes and voting rights, (d) per-person founder/executive CVs with education, career chronology, patents, and prior exits, (e) patent portfolio table with numbers/dates/jurisdictions, (f) per-product forensic detail (for medical: indication, current standard of care, competitor products, clinical data; for SaaS: workflow, competitor tools, unit economics), (g) domestic vs. international market bifurcation by region (US/EU/China/Japan/SEA), (h) complete competitor landscape with all material players and product comparison. When data is unavailable, state what is missing, how material it is, and what source would be needed.
-9. Run template preflight, then initialize the harness:
+This skill orchestrates 16 modular sub-skills. Each sub-skill produces one section of the report independently, solving the context-length problem. The orchestrator handles setup, dispatch, assembly, and QA.
+
+### Stage 0: Setup
+
+1. Read `references/report_strategy_playbook.md` to choose the report spine.
+2. Read `references/analysis_core.md` for evidence standards.
+3. Read `references/decision_framework.md` for decision framework.
+4. Read `references/company_deep_dive_playbook.md` for forensic depth standard.
+5. Read conditional lenses as needed: `geo_market_context_lens.md`, `policy_geopolitics_lens.md`, `public_equity_financials_lens.md`, `regulatory_database_lens.md`.
+6. Extract user-provided materials. Copy originals into `sources/`.
+7. Initialize the harness:
 
    ```bash
    python scripts/run_analysis_harness.py preflight
-   python scripts/run_analysis_harness.py init --output "[CompanyName]_[BusinessSummary]" --company "[CompanyName]" --sources [source files...]
+   python scripts/run_analysis_harness.py init --output "[output]" --company "[name]" --sources [files...]
    ```
 
-9. Put all extraction notes, OCR text, rendered pages, screenshots, search notes, and scratch work under `_work/`. Never place intermediate files in the final output root.
-10. Use _work/research_plan.md`, `_work/source_register.md`, `_work/thesis_table.md`, `_work/scenario_analysis.md`, and `_work/red_team_review.md` as internal workflow files. Keep them current; they are deleted before delivery.
-11. Use _work/profile_requirements.md` to enforce the selected profile. The shared skill has three managed profiles: `codex`, `claude-code-claude`, and `claude-code-deepseek-ocr`. Do not collapse them into one generic workflow; complete the profile-specific checklist before drafting.
-12. Extract and inspect user-provided materials. Copy originals into `sources/`.
-13. For public equities, capture the ticker/security code, exchange, currency, latest available share price, market cap, enterprise value if available, trading date/time, latest annual report, latest interim/quarterly report, and any post-period guidance or profit warning before drafting. Perform professional financial statement analysis across income statement, balance sheet, cash flow statement, and notes. If any item cannot be sourced, state that explicitly and do not substitute unsourced estimates.
-14. Build `_work/source_register.md` and `_work/evidence_matrix.md` before drafting. The source register must map sources to source IDs, links or file/page references, claims, confidence, and source type. The evidence matrix must cover every material section with searches, source IDs, independent sources, a primary/source-of-truth check where available, finding/fact, mechanism, quantification/proxies, benchmark or peer context, counter-evidence, investor implication, confidence, and follow-up diligence questions. For public equities, include dedicated evidence rows for market data, income statement, cash flow, balance sheet/debt, valuation, consensus/guidance, and capital allocation.
-15. Preserve source auditability in the final report. Add a visible `数据来源与引用 / Source Appendix` module with clickable links or local source paths, source type, confidence, and the claims each source supports. Inline source tags are allowed for important claims, but source tags alone are insufficient.
-16. Run the pre-draft gate before writing:
+8. Create `_work/sections/` directory. Write `_work/sections/context.json` skeleton with `report_metadata` populated.
+9. Write `_work/sections/meta.txt` with COMPANY_NAME, REPORT_DATE, DATA_AS_OF, INDUSTRY, HEADQUARTERS, STAGE, COMPOSITE_SCORE, YEAR.
 
-   ```bash
-   python scripts/run_analysis_harness.py gate --output "[output folder]"
-   ```
+### Stage 1: Parallel — Independent Sections (S1-S10, S12, S13)
 
-17. Draft the HTML report using the current `templates/report_template.html` only. The generated HTML must retain `data-template-version="codex-compact-toc-v3"` and must not contain old overlay TOC ids such as `openToc`, `tocBackdrop`, or `closeToc`. The report may reorder or merge the 14 coverage areas when the company requires a different narrative, but it must still cover all material areas.
+Dispatch these 12 sub-skills in 3 parallel batches (4 per batch). Each sub-skill:
+- Reads `_work/source_register.md`, `_work/evidence_matrix.md`, `_work/sections/context.json`
+- Does 3-6 targeted web searches specific to its section
+- Writes `_work/sections/SECTION_N.html`
+- Updates `_work/sections/context.json` → `sections.sN` with summary
 
-**Minimum content depth (enforced by check_depth.py):** 2,500+ plain-text characters per section (≈5-7 substantial analytical paragraphs), 8+ numeric facts/proxies, 6+ source mentions, 4+ distinct source IDs, 6+ analytical paragraphs. A section with 3 short paragraphs and 2 numbers FAILS the depth gate. Depth is not about length — it's about evidence density.
+**Batch 1:** `ia-company-overview`, `ia-team`, `ia-technology`, `ia-market`
+**Batch 2:** `ia-competition`, `ia-business-model`, `ia-financials`, `ia-funding`
+**Batch 3:** `ia-strategy`, `ia-risk`, `ia-exit`, `ia-esg`
 
-**Per-section deep research mandate:** Before drafting a section, the analyst must do at least 3 targeted searches SPECIFIC to that section's topic (not generic company name search). Examples:
-- S3 Technology: "[technology name] mechanism", "[technology name] clinical paper", "[competitor technology] vs [our technology] comparison", site:pubmed.ncbi.nlm.nih.gov "[technology name]"
-- S4 Market: "[industry] market size 2025 2026 report", "[industry] CAGR forecast", site:grandviewresearch.com OR site:marketsandmarkets.com "[industry]"
-- S5 Competition: "[competitor name] product specifications", "[competitor name] funding valuation", "[competitor name] vs [company name] comparison"
-- S2 Team: "[founder name] LinkedIn", "[founder name] publication", "[founder name] interview", site:patents.google.com "[founder name]"
-- All sections: search company official website, government databases (NMPA/FDA/SAMR), academic databases (PubMed/arXiv/Google Scholar) where relevant.
+Invoke via: `Skill: ia-{name} args="--output-dir $OUTPUT --company $COMPANY"`
 
-18. Run the **Investor Reviewer** using `references/investor_reviewer_lens.md`. This is a simulated investment committee partner who reads the report with fresh eyes and challenges it on completeness, detail sharpness, and claim verification. The reviewer produces `_work/investor_review.md` with Critical/Important/Minor items across 5 rounds: (1) Completeness Sweep — is every section at the forensic depth standard? Does each section have sufficient depth or is it a few short paragraphs? (2) Claim Verification — is every claim sourced and current? (3) Missing Competitors — who did the analyst forget? (4) Product/Market Fit — the uncomfortable commercial questions. (5) Number Stress-Test — key assumptions at -30%. **All Critical items must be resolved before proceeding.** The analyst must either add the missing information (by doing ADDITIONAL targeted searches, not by rewording existing content) or explicitly state why it cannot be obtained and how that impacts confidence.
-19. Generate PDF:
+### Stage 2: Sequential — Dependent Sections (S11, S14)
 
-   ```bash
-   python scripts/generate_pdf.py "[report.html]" "[report.pdf]"
-   ```
+These sections need summaries from S2-S10. After all 12 independent sections complete:
+1. Read `_work/sections/context.json` — collect all `sections.sN.summary` fields
+2. Invoke `ia-thesis` — synthesizes S2-S10 into investment thesis, writes `SECTION_11.html`
+3. Invoke `ia-scoring` — scores all dimensions based on S1-S13 findings, writes `SECTION_14.html`
 
-19. Run the QA loop after drafting and PDF generation. The loop is valid only when `_work/` still contains completed profile requirements, research, source register, thesis table, scenario analysis, red-team review, and evidence matrix. If `_work/` is absent or the loop fails, the report has not passed harness QA.
+### Stage 3: Final Sections
 
-   ```bash
-   python scripts/run_analysis_harness.py loop --output "[output folder]" --html "[report.html]" --pdf "[report.pdf]"
-   ```
+After all 14 sections are complete:
+1. Invoke `ia-executive-summary` — synthesizes all 14 section summaries into the 5-minute briefing
+2. Invoke `ia-source-appendix` — compiles `_work/source_register.md` into the formatted source appendix
 
-   If the loop fails, return to search/evidence gathering and rewrite the weak sections. Do not solve failures by adding generic wording without new evidence.
-   When the loop fails, the harness generates `_work/rewrite_plan.md` when an HTML report exists. Treat every unchecked item in that file as mandatory; `gate` will fail until the rewrite checklist is resolved.
+### Stage 4: Assembly
 
-20. Re-run the QA loop after every material rewrite or PDF regeneration, visually check HTML/PDF when possible, then clean. `clean` now runs report QA first when an HTML report exists; if QA fails, cleanup is blocked so `_work/` remains available for repair. Do not run or claim harness-loop QA after cleanup.
+Build the final HTML report from the template and all section outputs:
 
-   ```bash
-   python scripts/run_analysis_harness.py clean --output "[output folder]"
-   ```
+```bash
+python scripts/build_report.py templates/report_template.html "[output]/[name]_投资分析报告.html" _work/sections/
+```
 
-21. Run the post-clean final check. This is mandatory for Codex because `clean_output.py` alone only verifies folder cleanliness, not report quality.
+Verify zero unreplaced `{{...}}` placeholders.
 
-   ```bash
-   python scripts/run_analysis_harness.py final-check --output "[output folder]" --html "[report.html]" --pdf "[report.pdf]"
-   ```
+### Stage 5: QA Loop, PDF, Clean, Deliver
 
-22. Final output folder must contain only:
+```bash
+python scripts/run_analysis_harness.py loop --output "[output]" --html "[html]" --pdf "[pdf]"
+```
 
-   ```text
-   [CompanyName]_[BusinessSummary]/
-   ├── sources/
-   ├── [CompanyName]_投资分析报告.html
-   └── [CompanyName]_投资分析报告.pdf
-   ```
+If loop fails: read `_work/rewrite_plan.md`, identify weak sections, re-invoke the relevant sub-skill with additional context, then re-run Stage 4 and loop.
+
+```bash
+python scripts/generate_pdf.py "[html]" "[pdf]"
+python scripts/run_analysis_harness.py clean --output "[output]"
+python scripts/run_analysis_harness.py final-check --output "[output]" --html "[html]" --pdf "[pdf]"
+```
+
+### Per-Section Depth Mandate (enforced by each sub-skill and check_depth.py)
+
+2,500+ plain-text characters per section, 8+ numeric facts, 6+ source mentions, 4+ distinct source IDs, 6+ analytical paragraphs. Each sub-skill does 3-6 targeted searches specific to its topic. A section with 3 short paragraphs and 2 numbers fails the depth gate.
+
+### When a Section Fails QA
+
+If `loop` identifies a weak section:
+1. Read the specific failure from `_work/rewrite_plan.md`
+2. Re-invoke the relevant sub-skill: `Skill: ia-{name} args="--output-dir $OUTPUT --company $COMPANY --fix 'failure description'"`
+3. The sub-skill does additional targeted research and rewrites its section HTML
+4. Re-run Stage 4 (assembly) and Stage 5 (QA)
 
 ## Report Requirements
 
