@@ -57,6 +57,15 @@ PROFILE_REQUIREMENTS = {
         "Mark OCR-derived claims as low confidence until visually checked or externally corroborated; use ranges and wider uncertainty bands for OCR-derived financial inputs.",
         "Build a deck/source claim verification table for material company-provided claims, explicitly marking verified, partially verified, unverified, contradicted, or not publicly disclosed.",
     ],
+    "dsh": [
+        "Map the shared SKILL.md's Claude Code terms to DSH tools: Agent tool -> subagent, Bash -> pwsh, WebSearch/WebFetch -> web_search/web_fetch, Read/Write/Edit -> read/write/edit.",
+        "Launch the 12 independent section agents (S1-S10, S12, S13) as subagent calls in a single message with run_in_background: true so they execute concurrently with independent context windows.",
+        "Give every section subagent a fully self-contained prompt: role, section mandate from references/section_deepening.md, evidence gate from _shared/section_standards.md, company context, source file paths, and the exact output contract (_work/sections/SECTION_N.html plus the context.json update).",
+        "Run the Python harness through the pwsh tool on Windows (python scripts/run_analysis_harness.py ...); do not assume a Bash shell.",
+        "Use web_search and web_fetch for live research, and read/glob/grep for local files and references/.",
+        "Track the staged workflow with todo_write and collect background subagent results via completion notices or job_output; never busy-poll.",
+        "Keep every analytical scaffold internal and enforce the same evidence gate, counter-evidence, and citation discipline as the other profiles.",
+    ],
 }
 
 
@@ -571,7 +580,7 @@ def main() -> int:
     p_init.add_argument("--output", required=True)
     p_init.add_argument("--company", default="")
     p_init.add_argument("--scope", default="primary + secondary market investment analysis")
-    p_init.add_argument("--profile", choices=["codex", "claude-code-claude", "claude-code-deepseek-ocr"], default="codex")
+    p_init.add_argument("--profile", choices=["codex", "claude-code-claude", "claude-code-deepseek-ocr", "dsh"], default="codex")
     p_init.add_argument("--sources", nargs="*", default=[])
     p_init.set_defaults(func=init)
 
@@ -579,7 +588,7 @@ def main() -> int:
     p_evidence.add_argument("--output", required=True)
     p_evidence.add_argument("--company", default="")
     p_evidence.add_argument("--scope", default="")
-    p_evidence.add_argument("--profile", choices=["codex", "claude-code-claude", "claude-code-deepseek-ocr"], default="codex")
+    p_evidence.add_argument("--profile", choices=["codex", "claude-code-claude", "claude-code-deepseek-ocr", "dsh"], default="codex")
     p_evidence.set_defaults(func=evidence)
 
     p_check = sub.add_parser("check-evidence", help="Validate evidence matrix completeness.")

@@ -4,7 +4,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/version-v2.0-0f766e?style=for-the-badge" alt="Version">
-  <img src="https://img.shields.io/badge/platform-Claude%20Code%20%7C%20Codex%20%7C%20Cursor-202124?style=for-the-badge" alt="Platform">
+  <img src="https://img.shields.io/badge/platform-Claude%20Code%20%7C%20Codex%20%7C%20Cursor%20%7C%20DSH-202124?style=for-the-badge" alt="Platform">
   <img src="https://img.shields.io/badge/license-MIT-15803d?style=for-the-badge" alt="License">
 </p>
 
@@ -44,6 +44,18 @@ Copy `versions/codex/CODEX.md` into `.cursor/rules/`, then:
 
 ```
 @investment-analysis Analyze [Company Name]
+```
+
+### DeepSeek Harness (DSH)
+
+Install into the DSH user skills directory and run the `dsh` profile:
+
+```bash
+# Install the skill (DSH discovers directory bundles under ~/.dsh/skills/)
+git clone https://github.com/BruceLZX/investment-analysis-skill.git ~/.dsh/skills/investment-analysis
+
+# Use it — the orchestrator runs with --profile dsh
+python scripts/run_analysis_harness.py init --profile dsh --output "[CompanyName]_[BusinessSummary]" --company "[CompanyName]"
 ```
 
 ### Any AI Tool
@@ -97,7 +109,8 @@ investment-analysis/
 └── versions/                         # Platform-specific profiles
     ├── claude-code-claude/CLAUDE.md
     ├── claude-code-deepseek-ocr/CLAUDE.md
-    └── codex/CODEX.md
+    ├── codex/CODEX.md
+    └── dsh/DSH.md
 ```
 
 ## Analysis Spines
@@ -144,14 +157,14 @@ If revenue data is unavailable, state "未公开" (not publicly disclosed). If a
 The report should answer: *"What should an investor do now?"* — not just describe what the company does. Every paragraph should earn its place by advancing the investment decision.
 
 ### 5. Multi-Platform, One Standard
-Whether running on Claude Code, Codex, or Cursor, the same 14-dimension framework and evidence gate applies. Platform-specific profiles handle tool availability and model characteristics.
+Whether running on Claude Code, Codex, Cursor, or DeepSeek Harness (DSH), the same 14-dimension framework and evidence gate applies. Platform-specific profiles handle tool availability and model characteristics.
 
 
 ## Requirements
 
 - **Python 3.10+** for harness scripts
 - **WeasyPrint** (`pip install weasyprint`) for PDF generation
-- **Claude Code / Codex / Cursor** as the AI runtime
+- **Claude Code / Codex / Cursor / DeepSeek Harness (DSH)** as the AI runtime
 
 ```bash
 # macOS

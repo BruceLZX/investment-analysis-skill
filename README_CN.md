@@ -4,7 +4,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/version-v2.0-0f766e?style=for-the-badge" alt="Version">
-  <img src="https://img.shields.io/badge/platform-Claude%20Code%20%7C%20Codex%20%7C%20Cursor-202124?style=for-the-badge" alt="Platform">
+  <img src="https://img.shields.io/badge/platform-Claude%20Code%20%7C%20Codex%20%7C%20Cursor%20%7C%20DSH-202124?style=for-the-badge" alt="Platform">
   <img src="https://img.shields.io/badge/license-MIT-15803d?style=for-the-badge" alt="License">
 </p>
 
@@ -54,6 +54,18 @@ cp -r investment-analysis ~/.claude/skills/
 
 ```
 @investment-analysis 分析 [公司名称]
+```
+
+### DeepSeek Harness (DSH)
+
+安装到 DSH 用户技能目录，并使用 `dsh` profile：
+
+```bash
+# 安装技能（DSH 会自动发现 ~/.dsh/skills/ 下的目录式技能）
+git clone https://github.com/BruceLZX/investment-analysis-skill.git ~/.dsh/skills/investment-analysis
+
+# 使用 —— 编排器以 --profile dsh 运行
+python scripts/run_analysis_harness.py init --profile dsh --output "[公司名]_[业务摘要]" --company "[公司名]"
 ```
 
 ### 任意 AI 工具
@@ -123,7 +135,8 @@ investment-analysis/
 └── versions/                         # 平台特定配置
     ├── claude-code-claude/CLAUDE.md
     ├── claude-code-deepseek-ocr/CLAUDE.md
-    └── codex/CODEX.md
+    ├── codex/CODEX.md
+    └── dsh/DSH.md
 ```
 
 ## 分析框架（Analysis Spines）
@@ -179,13 +192,13 @@ python scripts/run_analysis_harness.py clean --output "输出文件夹"
 报告应该回答：*"投资者现在应该怎么做？"*——而不仅仅是描述公司是做什么的。每个段落都应该对投资决策有实质推进。
 
 ### 5. 多平台，统一标准
-无论是在 Claude Code、Codex 还是 Cursor 上运行，都适用同一套 14 维度框架和证据关卡。平台特定配置仅处理工具可用性和模型特性差异。
+无论是在 Claude Code、Codex、Cursor 还是 DeepSeek Harness (DSH) 上运行，都适用同一套 14 维度框架和证据关卡。平台特定配置仅处理工具可用性和模型特性差异。
 
 ## 环境要求
 
 - **Python 3.10+** 用于自动化脚本
 - **WeasyPrint**（`pip install weasyprint`）用于 PDF 生成
-- **Claude Code / Codex / Cursor** 作为 AI 运行时
+- **Claude Code / Codex / Cursor / DeepSeek Harness (DSH)** 作为 AI 运行时
 
 ```bash
 # macOS
